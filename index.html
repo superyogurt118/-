@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Язык · строгое меню</title>
+    <title>язык · чисто</title>
     <!-- Строгий шрифт Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,168 +18,206 @@
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: #fbede2;  /* мягкий оранжевый, однородный, без градиента */
-            min-height: 100vh;
-            display: flex;
-            color: #2f2a25;
+            background-color: #fbede2; /* мягкий чистый оранжевый */
+            color: #000000; /* абсолютно чёрный шрифт */
             line-height: 1.5;
+            min-height: 100vh;
         }
 
-        /* Основной контейнер на весь экран */
         .app {
             display: flex;
-            width: 100%;
             min-height: 100vh;
+            width: 100%;
         }
 
-        /* Боковое меню (сайдбар) */
+        /* --- Боковое меню (изначально открыто) --- */
         .sidebar {
             width: 260px;
-            background-color: #fbede2;   /* тот же фон, что и body, чтобы не было пустот */
+            background-color: #fbede2;  /* оранжевый фон меню */
             padding: 2rem 1.2rem;
-            border-right: 1px solid #e7d6c8; /* лёгкое отделение, но без градиента */
+            border-right: 1px solid #e0cfc0; /* тонкая граница */
+            transition: width 0.2s ease, padding 0.2s ease, opacity 0.15s ease;
+            white-space: nowrap;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
+            position: relative;
         }
 
-        /* Заголовок в сайдбаре */
+        /* Кнопка закрытия меню (крестик) */
+        .close-menu {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            line-height: 1;
+            cursor: pointer;
+            color: #5a4a3d;
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            transition: 0.1s;
+        }
+        .close-menu:hover {
+            background-color: #e6d4c4;
+            color: #000;
+        }
+
         .sidebar h2 {
-            font-weight: 450;
+            font-weight: 500;
             font-size: 1.8rem;
             letter-spacing: -0.02em;
             margin-bottom: 1.5rem;
-            color: #4f4239;
-            border-bottom: 2px solid #e0cfc0;
+            color: #000; /* чёрный */
+            border-bottom: 2px solid #dac2b0;
             padding-bottom: 0.6rem;
+            padding-right: 2rem; /* чтобы не наезжать на крестик */
         }
 
-        /* Стили для кнопок меню (выглядят как вкладки) */
+        /* Кнопки-вкладки в меню */
         .menu-item {
-            background: transparent;
+            background: none;
             border: none;
             font-family: inherit;
             font-size: 1.3rem;
             font-weight: 400;
             text-align: left;
-            padding: 0.9rem 1.2rem;
-            border-radius: 14px;
-            color: #4d3f35;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            color: #000;
             cursor: pointer;
-            transition: 0.2s ease;
-            border: 1px solid transparent;
-            letter-spacing: 0.2px;
+            transition: 0.1s;
             width: 100%;
+            border: 1px solid transparent;
         }
-
         .menu-item:hover {
-            background-color: #f3ded0;
-            border-color: #e6cbb8;
-            color: #22201d;
+            background-color: #eddacb;
         }
-
         .menu-item.active {
-            background-color: #f7e5d8;
-            border-color: #c8a48b;
-            font-weight: 550;
-            color: #1f1b18;
-            box-shadow: inset 3px 0 0 #b2622e; /* лёгкая полоска слева для акцента */
+            background-color: #ffffff;  /* белый фон активного пункта */
+            font-weight: 600;
+            border-color: #cfb7a5;
         }
 
-        /* Основная область контента */
+        /* --- Основная правая часть (белый фон на весь экран справа) --- */
         .main-content {
+            flex: 1;
+            background-color: #ffffff;  /* чисто белый */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            min-width: 0; /* чтобы flex не переполнял */
+        }
+
+        /* Кнопка открытия меню (гамбургер), скрыта по умолчанию */
+        .open-menu {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: #fbede2; /* оранжевая, чтобы была заметна */
+            border: 1px solid #ccb7a8;
+            font-size: 1.8rem;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #000;
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            display: none;  /* скрыта, пока меню открыто */
+            transition: 0.1s;
+        }
+        .open-menu:hover {
+            background-color: #f0d6c2;
+        }
+
+        /* Контейнер для контента (центрирование) */
+        .content-center {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            background-color: #fbede2;   /* полностью сливается с фоном, пустот нет */
         }
 
-        /* Карточка контента (белая, но можно и прозрачную) */
-        .content-card {
+        /* Панели с сообщениями */
+        .pane-container {
             width: 100%;
             max-width: 800px;
-            background-color: #ffffffd4;  /* полупрозрачный белый, но фон не градиентный */
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            border-radius: 2.5rem;
-            padding: 2.8rem 2.5rem;
-            box-shadow: 0 10px 25px -15px #ac8b72;
-            border: 1px solid #f0dfd2;
-        }
-
-        /* Область переключения контента */
-        .pane-container {
-            min-height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
         }
 
         .tab-pane {
             display: none;
-            width: 100%;
         }
-
         .tab-pane.active-pane {
             display: block;
         }
 
-        /* Заглушка */
         .placeholder-message {
             font-size: 2rem;
             font-weight: 350;
-            color: #a2765a;
-            text-align: center;
+            color: #a2765a;  /* мягкий оранжево-коричневый для текста заглушки */
             line-height: 1.5;
         }
-
         .placeholder-message small {
             display: block;
             font-size: 1.2rem;
-            color: #b28f78;
+            color: #937b68;
             font-weight: 350;
             margin-top: 1.2rem;
-            border-top: 1px dashed #e0cdbc;
+            border-top: 1px dashed #d4bcac;
             padding-top: 1rem;
         }
 
-        /* Адаптивность: на узких экранах меню уходит вверх */
-        @media (max-width: 700px) {
+        /* --- Состояние: меню скрыто --- */
+        .app.sidebar-collapsed .sidebar {
+            width: 0;
+            padding: 0;
+            opacity: 0;
+            border-right: none;
+        }
+        .app.sidebar-collapsed .open-menu {
+            display: block;  /* показываем кнопку-гамбургер */
+        }
+        /* при скрытом меню правая часть занимает всю ширину */
+        .app.sidebar-collapsed .main-content {
+            width: 100%;
+        }
+
+        /* Адаптивность: на узких экранах меню становится сверху, но мы сохраним логику */
+        @media (max-width: 650px) {
             .app {
                 flex-direction: column;
             }
             .sidebar {
                 width: 100%;
                 border-right: none;
-                border-bottom: 1px solid #e7d6c8;
+                border-bottom: 1px solid #e0cfc0;
                 padding: 1.2rem;
-                flex-direction: row;
-                flex-wrap: wrap;
-                align-items: center;
             }
-            .sidebar h2 {
-                margin-bottom: 0;
-                margin-right: 1.5rem;
+            .close-menu {
+                top: 0.8rem;
+                right: 1rem;
+            }
+            .app.sidebar-collapsed .sidebar {
+                width: 0;
+                padding: 0;
                 border-bottom: none;
-                font-size: 1.5rem;
             }
-            .menu-item {
-                width: auto;
-                font-size: 1.1rem;
-                padding: 0.5rem 1rem;
-            }
-            .main-content {
-                padding: 1.5rem;
+            .open-menu {
+                top: 1rem;
+                left: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app">
-        <!-- Левое меню (сайдбар) -->
-        <div class="sidebar">
+    <div class="app" id="app">
+        <!-- Боковое меню (слева, оранжевое) -->
+        <div class="sidebar" id="sidebar">
+            <button class="close-menu" id="closeMenuBtn" aria-label="Закрыть меню">✕</button>
             <h2>язык ·</h2>
             <button class="menu-item active" data-tab="about">О языке</button>
             <button class="menu-item" data-tab="alphabet">Алфавит</button>
@@ -187,9 +225,12 @@
             <button class="menu-item" data-tab="exercises">Упражнения</button>
         </div>
 
-        <!-- Основная область с контентом -->
+        <!-- Основная белая область -->
         <div class="main-content">
-            <div class="content-card">
+            <!-- Кнопка для открытия меню (гамбургер) появляется только когда меню скрыто -->
+            <button class="open-menu" id="openMenuBtn">☰</button>
+
+            <div class="content-center">
                 <div class="pane-container">
                     <div id="about" class="tab-pane active-pane">
                         <div class="placeholder-message">
@@ -222,6 +263,11 @@
 
     <script>
         (function() {
+            const app = document.getElementById('app');
+            const sidebar = document.getElementById('sidebar');
+            const closeBtn = document.getElementById('closeMenuBtn');
+            const openBtn = document.getElementById('openMenuBtn');
+
             const menuItems = document.querySelectorAll('.menu-item');
             const panes = {
                 about: document.getElementById('about'),
@@ -230,26 +276,30 @@
                 exercises: document.getElementById('exercises')
             };
 
-            // Функция переключения
+            // --- Управление скрытием/показом меню ---
+            closeBtn.addEventListener('click', () => {
+                app.classList.add('sidebar-collapsed');
+            });
+
+            openBtn.addEventListener('click', () => {
+                app.classList.remove('sidebar-collapsed');
+            });
+
+            // --- Переключение вкладок ---
             function switchTab(tabId) {
-                // Убираем active у всех пунктов меню
                 menuItems.forEach(item => item.classList.remove('active'));
-                // Добавляем active выбранному
                 const activeItem = document.querySelector(`.menu-item[data-tab="${tabId}"]`);
                 if (activeItem) activeItem.classList.add('active');
 
-                // Скрываем все панели
                 Object.values(panes).forEach(pane => {
                     if (pane) pane.classList.remove('active-pane');
                 });
 
-                // Показываем нужную
                 if (panes[tabId]) {
                     panes[tabId].classList.add('active-pane');
                 }
             }
 
-            // Навешиваем обработчики
             menuItems.forEach(item => {
                 item.addEventListener('click', (e) => {
                     const tabId = item.getAttribute('data-tab');
@@ -257,18 +307,20 @@
                 });
             });
 
-            // Синхронизация при загрузке (чтобы активная панель соответствовала active пункту)
-            const activeMenuItem = document.querySelector('.menu-item.active');
-            if (activeMenuItem) {
-                const initialTab = activeMenuItem.getAttribute('data-tab');
+            // Инициализация: активная панель соответствует active пункту меню
+            const initialActive = document.querySelector('.menu-item.active');
+            if (initialActive) {
+                const initialTab = initialActive.getAttribute('data-tab');
                 if (initialTab && panes[initialTab]) {
                     Object.values(panes).forEach(p => p?.classList.remove('active-pane'));
                     panes[initialTab].classList.add('active-pane');
                 }
             } else {
-                // Если по какой-то причине нет active, активируем "about"
                 switchTab('about');
             }
+
+            // При очень узком экране можно автоматически скрывать меню?
+            // Но оставим на усмотрение пользователя.
         })();
     </script>
 </body>
