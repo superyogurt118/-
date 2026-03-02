@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Язык · минимал</title>
+    <title>Язык · строгое меню</title>
     <!-- Строгий шрифт Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <style>
-        /* Сброс */
+        /* Полный сброс */
         * {
             margin: 0;
             padding: 0;
@@ -17,106 +17,106 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-            background-color: #fae6d8;  /* мягкий оранжевый, без градиента */
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #fbede2;  /* мягкий оранжевый, однородный, без градиента */
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;  /* небольшие отступы от краёв */
-            color: #2e2b28;
-            line-height: 1.4;
-        }
-
-        /* Основной блок — белая карточка, строгая, без градиентов */
-        .card {
-            width: 100%;
-            max-width: 1100px;        /* достаточно широко, но не вплотную */
-            background-color: #ffffff;
-            border-radius: 2rem;       /* мягкие углы, но можно убрать */
-            padding: 2.5rem 2.5rem 3rem 2.5rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02);
-            border: 1px solid #f0dac8; /* лёгкая граница в тон фона */
-        }
-
-        h1 {
-            font-weight: 450;
-            font-size: 2.8rem;
-            letter-spacing: -0.02em;
-            margin-bottom: 2rem;
-            color: #4a3f38;
-            border-bottom: 2px solid #edd7c5;
-            padding-bottom: 0.8rem;
-        }
-
-        /* Вкладки — строго, без лишних эффектов */
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 1.2rem;
-            margin-bottom: 2.2rem;
-            border-bottom: 1px solid #e2d4c9;
-            padding-bottom: 0.5rem;
-        }
-
-        .tab-button {
-            background: none;
-            border: none;
-            padding: 0.5rem 0.2rem;
-            font-size: 1.3rem;
-            font-weight: 400;
-            font-family: inherit;
-            color: #5b4e44;
-            cursor: pointer;
-            transition: 0.15s ease;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -0.5rem;  /* чтобы граница налезала на родительскую */
-            letter-spacing: 0.3px;
-        }
-
-        .tab-button:hover {
-            color: #c3672e;
-            border-bottom-color: #f0cdb0;
-        }
-
-        .tab-button.active {
-            font-weight: 550;
-            color: #b15823;
-            border-bottom-color: #b15823;
-        }
-
-        /* Контентная область */
-        .content-area {
-            background-color: #fcf7f2;   /* очень светлый тёплый фон */
-            border-radius: 1.5rem;
-            padding: 2.5rem 2rem;
-            border: 1px solid #f2e1d2;
-            min-height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Заглушка */
-        .placeholder-message {
-            font-size: 1.9rem;
-            font-weight: 350;
-            color: #aa7b5b;
-            text-align: center;
+            color: #2f2a25;
             line-height: 1.5;
         }
 
-        .placeholder-message small {
-            display: block;
-            font-size: 1.2rem;
-            color: #b6967c;
-            font-weight: 350;
-            margin-top: 1rem;
-            border-top: 1px dashed #e1cfbf;
-            padding-top: 1rem;
+        /* Основной контейнер на весь экран */
+        .app {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
         }
 
-        /* Панели переключения */
+        /* Боковое меню (сайдбар) */
+        .sidebar {
+            width: 260px;
+            background-color: #fbede2;   /* тот же фон, что и body, чтобы не было пустот */
+            padding: 2rem 1.2rem;
+            border-right: 1px solid #e7d6c8; /* лёгкое отделение, но без градиента */
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        /* Заголовок в сайдбаре */
+        .sidebar h2 {
+            font-weight: 450;
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            color: #4f4239;
+            border-bottom: 2px solid #e0cfc0;
+            padding-bottom: 0.6rem;
+        }
+
+        /* Стили для кнопок меню (выглядят как вкладки) */
+        .menu-item {
+            background: transparent;
+            border: none;
+            font-family: inherit;
+            font-size: 1.3rem;
+            font-weight: 400;
+            text-align: left;
+            padding: 0.9rem 1.2rem;
+            border-radius: 14px;
+            color: #4d3f35;
+            cursor: pointer;
+            transition: 0.2s ease;
+            border: 1px solid transparent;
+            letter-spacing: 0.2px;
+            width: 100%;
+        }
+
+        .menu-item:hover {
+            background-color: #f3ded0;
+            border-color: #e6cbb8;
+            color: #22201d;
+        }
+
+        .menu-item.active {
+            background-color: #f7e5d8;
+            border-color: #c8a48b;
+            font-weight: 550;
+            color: #1f1b18;
+            box-shadow: inset 3px 0 0 #b2622e; /* лёгкая полоска слева для акцента */
+        }
+
+        /* Основная область контента */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-color: #fbede2;   /* полностью сливается с фоном, пустот нет */
+        }
+
+        /* Карточка контента (белая, но можно и прозрачную) */
+        .content-card {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffffd4;  /* полупрозрачный белый, но фон не градиентный */
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            padding: 2.8rem 2.5rem;
+            box-shadow: 0 10px 25px -15px #ac8b72;
+            border: 1px solid #f0dfd2;
+        }
+
+        /* Область переключения контента */
+        .pane-container {
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .tab-pane {
             display: none;
             width: 100%;
@@ -126,61 +126,95 @@
             display: block;
         }
 
-        /* адаптация */
-        @media (max-width: 600px) {
-            body {
-                padding: 0.8rem;
+        /* Заглушка */
+        .placeholder-message {
+            font-size: 2rem;
+            font-weight: 350;
+            color: #a2765a;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .placeholder-message small {
+            display: block;
+            font-size: 1.2rem;
+            color: #b28f78;
+            font-weight: 350;
+            margin-top: 1.2rem;
+            border-top: 1px dashed #e0cdbc;
+            padding-top: 1rem;
+        }
+
+        /* Адаптивность: на узких экранах меню уходит вверх */
+        @media (max-width: 700px) {
+            .app {
+                flex-direction: column;
             }
-            .card {
-                padding: 1.8rem 1.2rem;
-                border-radius: 1.5rem;
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e7d6c8;
+                padding: 1.2rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
             }
-            h1 {
-                font-size: 2.2rem;
-            }
-            .tab-button {
-                font-size: 1.1rem;
-            }
-            .placeholder-message {
+            .sidebar h2 {
+                margin-bottom: 0;
+                margin-right: 1.5rem;
+                border-bottom: none;
                 font-size: 1.5rem;
+            }
+            .menu-item {
+                width: auto;
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+            }
+            .main-content {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>язык · ʦ</h1>
-
-        <div class="tabs" id="tabsContainer">
-            <button class="tab-button active" data-tab="about">О языке</button>
-            <button class="tab-button" data-tab="alphabet">Алфавит</button>
-            <button class="tab-button" data-tab="rules">Правила</button>
-            <button class="tab-button" data-tab="exercises">Упражнения</button>
+    <div class="app">
+        <!-- Левое меню (сайдбар) -->
+        <div class="sidebar">
+            <h2>язык ·</h2>
+            <button class="menu-item active" data-tab="about">О языке</button>
+            <button class="menu-item" data-tab="alphabet">Алфавит</button>
+            <button class="menu-item" data-tab="rules">Правила</button>
+            <button class="menu-item" data-tab="exercises">Упражнения</button>
         </div>
 
-        <div class="content-area">
-            <div id="about" class="tab-pane active-pane">
-                <div class="placeholder-message">
-                    🌅 ничего нет
-                    <small>раздел об языке</small>
-                </div>
-            </div>
-            <div id="alphabet" class="tab-pane">
-                <div class="placeholder-message">
-                    🔤 ничего нет
-                    <small>алфавит</small>
-                </div>
-            </div>
-            <div id="rules" class="tab-pane">
-                <div class="placeholder-message">
-                    📘 ничего нет
-                    <small>правила</small>
-                </div>
-            </div>
-            <div id="exercises" class="tab-pane">
-                <div class="placeholder-message">
-                    ✏️ ничего нет
-                    <small>упражнения</small>
+        <!-- Основная область с контентом -->
+        <div class="main-content">
+            <div class="content-card">
+                <div class="pane-container">
+                    <div id="about" class="tab-pane active-pane">
+                        <div class="placeholder-message">
+                            🌅 ничего нет
+                            <small>раздел об языке</small>
+                        </div>
+                    </div>
+                    <div id="alphabet" class="tab-pane">
+                        <div class="placeholder-message">
+                            🔤 ничего нет
+                            <small>алфавит</small>
+                        </div>
+                    </div>
+                    <div id="rules" class="tab-pane">
+                        <div class="placeholder-message">
+                            📘 ничего нет
+                            <small>правила</small>
+                        </div>
+                    </div>
+                    <div id="exercises" class="tab-pane">
+                        <div class="placeholder-message">
+                            ✏️ ничего нет
+                            <small>упражнения</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -188,7 +222,7 @@
 
     <script>
         (function() {
-            const tabs = document.querySelectorAll('.tab-button');
+            const menuItems = document.querySelectorAll('.menu-item');
             const panes = {
                 about: document.getElementById('about'),
                 alphabet: document.getElementById('alphabet'),
@@ -196,31 +230,43 @@
                 exercises: document.getElementById('exercises')
             };
 
+            // Функция переключения
             function switchTab(tabId) {
-                tabs.forEach(btn => btn.classList.remove('active'));
-                const activeBtn = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
-                if (activeBtn) activeBtn.classList.add('active');
+                // Убираем active у всех пунктов меню
+                menuItems.forEach(item => item.classList.remove('active'));
+                // Добавляем active выбранному
+                const activeItem = document.querySelector(`.menu-item[data-tab="${tabId}"]`);
+                if (activeItem) activeItem.classList.add('active');
 
-                Object.values(panes).forEach(pane => pane?.classList.remove('active-pane'));
-                if (panes[tabId]) panes[tabId].classList.add('active-pane');
+                // Скрываем все панели
+                Object.values(panes).forEach(pane => {
+                    if (pane) pane.classList.remove('active-pane');
+                });
+
+                // Показываем нужную
+                if (panes[tabId]) {
+                    panes[tabId].classList.add('active-pane');
+                }
             }
 
-            tabs.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const tabId = btn.getAttribute('data-tab');
+            // Навешиваем обработчики
+            menuItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const tabId = item.getAttribute('data-tab');
                     switchTab(tabId);
                 });
             });
 
-            // синхронизация при загрузке
-            const activeTab = document.querySelector('.tab-button.active');
-            if (activeTab) {
-                const initialTab = activeTab.getAttribute('data-tab');
+            // Синхронизация при загрузке (чтобы активная панель соответствовала active пункту)
+            const activeMenuItem = document.querySelector('.menu-item.active');
+            if (activeMenuItem) {
+                const initialTab = activeMenuItem.getAttribute('data-tab');
                 if (initialTab && panes[initialTab]) {
                     Object.values(panes).forEach(p => p?.classList.remove('active-pane'));
                     panes[initialTab].classList.add('active-pane');
                 }
             } else {
+                // Если по какой-то причине нет active, активируем "about"
                 switchTab('about');
             }
         })();
