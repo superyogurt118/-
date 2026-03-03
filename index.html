@@ -74,21 +74,15 @@
 
         .sidebar .logo-container {
             margin-bottom: 2rem;
-            padding-right: 2.5rem;
+            padding-right: 2.5rem; /* чтобы не налезать на крестик */
         }
 
-        /* Логотип: только тень, без фона и обводки */
+        /* Логотип: просто картинка на жёлтом фоне, без фона, теней, обводок */
         .sidebar .logo {
             max-width: 100%;
             height: auto;
             display: block;
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
-            transition: transform 0.2s, box-shadow 0.2s;
-            /* никакого фона, padding или border */
-        }
-        .sidebar .logo:hover {
-            transform: scale(1.02);
-            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.45);
+            /* Никаких дополнительных стилей — только отображение */
         }
 
         .menu-item {
@@ -251,7 +245,7 @@
 </head>
 <body>
     <div class="app" id="app">
-        <!-- Боковое меню с логотипом (только тень, никакого белого фона) -->
+        <!-- Боковое меню с логотипом (просто картинка, без подложек) -->
         <div class="sidebar" id="sidebar">
             <button class="close-menu" id="closeMenuBtn" aria-label="Закрыть меню">✕</button>
             <div class="logo-container">
