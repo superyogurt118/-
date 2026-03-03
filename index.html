@@ -67,7 +67,7 @@
         }
         .close-menu:hover {
             background-color: #000000;
-            color: #FFB800;  /* жёлтый текст */
+            color: #FFB800;
             transform: scale(1.03);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
@@ -77,15 +77,12 @@
             padding-right: 2.5rem;
         }
 
+        /* Логотип: только тень, без фона и обводки */
         .sidebar .logo {
             max-width: 100%;
             height: auto;
             display: block;
-            border: 3px solid #000000;
-            border-radius: 20px;
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
-            background-color: #ffffff;
-            padding: 10px;
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .sidebar .logo:hover {
@@ -111,13 +108,13 @@
         }
         .menu-item:hover {
             background-color: #000000;
-            color: #FFB800;  /* жёлтый */
+            color: #FFB800;
             transform: translateY(-2px);
             box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2);
         }
         .menu-item.active {
             background-color: #000000;
-            color: #FFB800;  /* жёлтый */
+            color: #FFB800;
             font-weight: 700;
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.25);
             border: 1px solid #ffffff;
@@ -138,7 +135,7 @@
             position: absolute;
             top: 1.8rem;
             left: 1.8rem;
-            background: #FFB800;  /* жёлтый */
+            background: #FFB800;
             border: none;
             font-size: 2.6rem;
             padding: 0.2rem 1.2rem 0.5rem 1.2rem;
@@ -248,11 +245,6 @@
             .placeholder-message {
                 font-size: 1.8rem;
             }
-            .sidebar .logo {
-                border-width: 2px;
-                padding: 6px;
-                border-radius: 14px;
-            }
         }
     </style>
 </head>
@@ -262,6 +254,7 @@
         <div class="sidebar" id="sidebar">
             <button class="close-menu" id="closeMenuBtn" aria-label="Закрыть меню">✕</button>
             <div class="logo-container">
+                <!-- Логотип: только тень, без фона и обводки -->
                 <img src="logo.png" alt="логотип" class="logo">
             </div>
             <button class="menu-item active" data-tab="about">О языке</button>
