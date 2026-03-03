@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вакеатэ Мовын</title>
     <style>
-        /* Общие стили */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -15,7 +14,7 @@
             line-height: 1.6;
         }
 
-        /* Шапка и Навигация */
+        /* Шапка */
         header {
             background-color: #fff;
             border-bottom: 3px solid #ffd700;
@@ -44,16 +43,15 @@
         .logo-img {
             width: 80px;
             height: auto;
-            display: block;
         }
 
         .logo-text {
             font-size: 28px;
             font-weight: bold;
             color: #d4af37;
-            letter-spacing: 1px;
         }
 
+        /* Навигация */
         .nav-links {
             list-style: none;
             display: flex;
@@ -66,71 +64,54 @@
             text-decoration: none;
             color: #555;
             font-weight: 600;
+            cursor: pointer;
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active {
             color: #ffd700;
         }
 
-        /* Герой-секция */
-        .hero {
-            text-align: center;
-            padding: 80px 20px 40px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
-
-        /* Секция Алфавита */
-        .alphabet-section {
-            padding: 40px 5%;
+        /* Секции контента */
+        .content-section {
+            display: none; /* Скрываем все секции по умолчанию */
+            padding: 60px 5%;
             max-width: 1000px;
             margin: 0 auto;
-            text-align: center;
+            animation: fadeIn 0.5s ease;
         }
 
+        .content-section.active {
+            display: block; /* Показываем только активную */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero { text-align: center; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
+
+        /* Алфавит */
         .alphabet-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
             margin-top: 30px;
-            background: #fff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1);
-            border: 1px solid #fff9e6;
         }
 
         .letter-card {
             background: #fff;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            padding: 15px 5px;
-            font-size: 1.5rem;
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.4rem;
             font-weight: bold;
-            transition: all 0.3s ease;
-            cursor: default;
         }
 
-        .letter-card:hover {
-            border-color: #ffd700;
-            background-color: #fffdf5;
-            transform: translateY(-3px);
-        }
-
-        /* Стиль для особых букв */
-        .special-letter {
-            border-color: #ffd700;
-            color: #d4af37;
-            background-color: #fffef0;
-        }
-
-        /* Кнопка меню (гамбургер) */
+        /* Бургер-меню */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -142,12 +123,9 @@
             width: 30px;
             height: 3px;
             background-color: #ffd700;
-            border-radius: 2px;
         }
 
         @media (max-width: 768px) {
-            .logo-img { width: 60px; }
-            .logo-text { font-size: 20px; }
             .menu-toggle { display: flex; }
             .nav-links {
                 display: none;
@@ -156,12 +134,12 @@
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background-color: #fff;
+                background: #fff;
                 padding: 20px 0;
+                text-align: center;
                 border-bottom: 2px solid #ffd700;
             }
-            .nav-links.active { display: flex; }
-            .nav-links li { margin: 15px 0; }
+            .nav-links.show { display: flex; }
         }
     </style>
 </head>
@@ -169,69 +147,77 @@
 
 <header>
     <nav>
-        <a href="#" class="logo-container">
+        <a href="#" class="logo-container" onclick="showSection('home')">
             <img src="logo.png" alt="Логотип" class="logo-img">
             <span class="logo-text">Вакеатэ Мовын</span>
         </a>
         
-        <div class="menu-toggle" id="mobile-menu">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
         </div>
 
         <ul class="nav-links" id="nav-list">
-            <li><a href="#">Главная</a></li>
-            <li><a href="#">Алфавит</a></li>
-            <li><a href="#">Грамматика</a></li>
-            <li><a href="#">Словарь</a></li>
-            <li><a href="#">Упражнения</a></li>
+            <li><a onclick="showSection('home')">Главная</a></li>
+            <li><a onclick="showSection('alphabet')">Алфавит</a></li>
+            <li><a onclick="showSection('grammar')">Грамматика</a></li>
+            <li><a onclick="showSection('vocab')">Словарь</a></li>
+            <li><a onclick="showSection('exercises')">Упражнения</a></li>
         </ul>
     </nav>
 </header>
 
 <main>
-    <section class="hero">
-        <h1>Вакеатэ Мовын</h1>
-        <p>
-            Это вымышленный язык, который основан на русском языке, 
-            но мы пытаемся сделать из русского языка что-то уникальное. 
-            Добро пожаловать!
-        </p>
-    </section>
-
-    <section class="alphabet-section">
-        <h2>Алфавит</h2>
-        <div class="alphabet-grid">
-            <div class="letter-card">А</div><div class="letter-card">Б</div><div class="letter-card">В</div>
-            <div class="letter-card">Г</div><div class="letter-card">Д</div><div class="letter-card">Е</div>
-            <div class="letter-card">Ё</div><div class="letter-card">Ж</div><div class="letter-card">З</div>
-            <div class="letter-card">И</div><div class="letter-card">Й</div><div class="letter-card">К</div>
-            <div class="letter-card">Л</div><div class="letter-card">М</div><div class="letter-card">Н</div>
-            <div class="letter-card">О</div><div class="letter-card">П</div><div class="letter-card">Р</div>
-            <div class="letter-card">С</div><div class="letter-card">Т</div><div class="letter-card">У</div>
-            <div class="letter-card">Ф</div><div class="letter-card">Х</div><div class="letter-card">Ц</div>
-            <div class="letter-card">Ч</div><div class="letter-card">Ш</div><div class="letter-card">Щ</div>
-            <div class="letter-card">Ъ</div><div class="letter-card">Ы</div><div class="letter-card">Ь</div>
-            <div class="letter-card">Э</div><div class="letter-card">Ю</div><div class="letter-card">Я</div>
-            
-            <div class="letter-card special-letter">Ѣ</div>
-            <div class="letter-card special-letter">Ӟ</div>
-            <div class="letter-card special-letter">Ӵ</div>
-            <div class="letter-card special-letter">Ӝ</div>
-            <div class="letter-card special-letter">Ӧ</div>
-            <div class="letter-card special-letter">Ӥ</div>
+    <section id="home" class="content-section active">
+        <div class="hero">
+            <h1>Вакеатэ Мовын</h1>
+            <p>Это вымышленный язык, который основан на русском языке, но мы пытаемся сделать из русского языка что-то уникальное. Добро пожаловать!</p>
         </div>
     </section>
+
+    <section id="alphabet" class="content-section">
+        <h2 style="text-align:center">Алфавит</h2>
+        <div class="alphabet-grid">
+            <div class="letter-card">А а</div> <div class="letter-card">Б б</div> <div class="letter-card">В в</div>
+            <div class="letter-card">Г г</div> <div class="letter-card">Д д</div> <div class="letter-card">Е е</div>
+            <div class="letter-card">Ё ё</div> <div class="letter-card">Ж ж</div> <div class="letter-card">Ӝ ӝ</div>
+            <div class="letter-card">З з</div> <div class="letter-card">Ӟ ӟ</div> <div class="letter-card">И и</div>
+            <div class="letter-card">Ӥ ӥ</div> <div class="letter-card">Й й</div> <div class="letter-card">К к</div>
+            <div class="letter-card">Л л</div> <div class="letter-card">М м</div> <div class="letter-card">Н н</div>
+            <div class="letter-card">О о</div> <div class="letter-card">Ӧ ӧ</div> <div class="letter-card">П п</div>
+            <div class="letter-card">Р р</div> <div class="letter-card">С с</div> <div class="letter-card">Т т</div>
+            <div class="letter-card">У у</div> <div class="letter-card">Ф ф</div> <div class="letter-card">Х х</div>
+            <div class="letter-card">Ц ц</div> <div class="letter-card">Ч ч</div> <div class="letter-card">Ӵ ӵ</div>
+            <div class="letter-card">Ш ш</div> <div class="letter-card">Щ щ</div> <div class="letter-card">Ъ ъ</div>
+            <div class="letter-card">Ы ы</div> <div class="letter-card">Ь ь</div> <div class="letter-card">Ѣ ѣ</div>
+            <div class="letter-card">Э э</div> <div class="letter-card">Ю ю</div> <div class="letter-card">Я я</div>
+        </div>
+    </section>
+
+    <section id="grammar" class="content-section"><h2 style="text-align:center">Грамматика</h2><p style="text-align:center">Раздел в разработке...</p></section>
+    <section id="vocab" class="content-section"><h2 style="text-align:center">Словарь</h2><p style="text-align:center">Раздел в разработке...</p></section>
+    <section id="exercises" class="content-section"><h2 style="text-align:center">Упражнения</h2><p style="text-align:center">Раздел в разработке...</p></section>
 </main>
 
 <script>
-    const menuToggle = document.getElementById('mobile-menu');
-    const navList = document.getElementById('nav-list');
+    function showSection(sectionId) {
+        // Скрываем все секции
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(s => s.classList.remove('active'));
 
-    menuToggle.addEventListener('click', () => {
-        navList.classList.toggle('active');
-    });
+        // Убираем активный класс у ссылок
+        const links = document.querySelectorAll('.nav-links a');
+        links.forEach(l => l.classList.remove('active'));
+
+        // Показываем нужную
+        document.getElementById(sectionId).classList.add('active');
+        
+        // Закрываем меню на мобилках после клика
+        document.getElementById('nav-list').classList.remove('show');
+    }
+
+    function toggleMenu() {
+        document.getElementById('nav-list').classList.toggle('show');
+    }
 </script>
 
 </body>
