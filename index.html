@@ -1,15 +1,16 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>язык · чисто</title>
-    <!-- Inter для строгости, но можно любой гротеск -->
+    <title>язык · контрастно и мягко</title>
+    <!-- Шрифт Inter с разными весами -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
-        /* АБСОЛЮТНЫЙ МИНИМАЛИЗМ: плоские цвета, чистый чёрный текст */
+        /* Сброс */
         * {
             margin: 0;
             padding: 0;
@@ -18,9 +19,9 @@
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: #ffffff; /* подложка, но всё определяется внутри */
+            background-color: #ffffff;
             color: #000000;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .app {
@@ -29,75 +30,93 @@
             width: 100%;
         }
 
-        /* --- Боковое меню (оранжевое, плоское) --- */
+        /* ---------- Боковое меню (насыщенный оранжевый) ---------- */
         .sidebar {
-            width: 280px;
-            background-color: #ffa500;  /* чистый яркий оранжевый */
+            width: 290px;
+            background-color: #ff5f00;  /* яркий оранжевый */
             color: #000000;
             padding: 2rem 1.5rem;
-            transition: width 0.2s ease, padding 0.2s ease;
+            transition: width 0.25s ease, padding 0.25s ease;
             white-space: nowrap;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.6rem;
             position: relative;
-            border-right: none;  /* никаких лишних линий */
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+            border-radius: 0 20px 20px 0;
         }
 
         .close-menu {
             position: absolute;
             top: 1.2rem;
             right: 1.2rem;
-            background: none;
+            background: #ffffff;
             border: none;
             font-size: 1.8rem;
             line-height: 1;
             cursor: pointer;
             color: #000000;
-            padding: 0 0.3rem;
-            font-weight: 400;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.15s;
+            font-weight: 600;
         }
         .close-menu:hover {
-            opacity: 0.7;
+            background-color: #000000;
+            color: #ff5f00;
+            transform: scale(1.03);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .sidebar h2 {
-            font-weight: 600;
-            font-size: 2.2rem;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.8rem;
-            color: #000000;
-            border-bottom: 2px solid #000000;  /* чёрная линия */
-            padding-bottom: 0.5rem;
-            padding-right: 2rem;
+        /* Контейнер для логотипа */
+        .sidebar .logo-container {
+            margin-bottom: 2rem;
+            padding-right: 2.5rem; /* чтобы не налезать на крестик */
+        }
+
+        .sidebar .logo {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
         .menu-item {
-            background: none;
+            background: #ffffff;
             border: none;
             font-family: inherit;
-            font-size: 1.4rem;
-            font-weight: 400;
+            font-size: 1.5rem;
+            font-weight: 500;
             text-align: left;
-            padding: 0.8rem 1rem;
+            padding: 1rem 1.5rem;
             color: #000000;
             cursor: pointer;
-            transition: 0.1s;
             width: 100%;
-            border-radius: 0;  /* строго прямоугольно */
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+            transition: 0.15s;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
         .menu-item:hover {
-            background-color: #000000;  /* чёрный фон при наведении */
-            color: #ffa500;            /* оранжевый текст */
+            background-color: #000000;
+            color: #ff5f00;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2);
         }
         .menu-item.active {
             background-color: #000000;
-            color: #ffa500;
-            font-weight: 600;
+            color: #ff5f00;
+            font-weight: 700;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.25);
+            border: 1px solid #ffffff;
         }
 
-        /* --- Основная белая часть (чистый белый) --- */
+        /* ---------- Основная белая часть ---------- */
         .main-content {
             flex: 1;
             background-color: #ffffff;
@@ -105,26 +124,32 @@
             flex-direction: column;
             position: relative;
             min-width: 0;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
         }
 
         .open-menu {
             position: absolute;
-            top: 1.5rem;
-            left: 1.5rem;
-            background: #ffa500;
-            border: 2px solid #000000;
-            font-size: 2rem;
-            padding: 0.2rem 1.2rem;
+            top: 1.8rem;
+            left: 1.8rem;
+            background: #ff5f00;
+            border: none;
+            font-size: 2.6rem;
+            padding: 0.2rem 1.2rem 0.5rem 1.2rem;
             cursor: pointer;
             color: #000000;
             z-index: 10;
             display: none;
-            font-weight: 400;
+            font-weight: 500;
             line-height: 1;
+            border-radius: 50px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+            transition: 0.15s;
         }
         .open-menu:hover {
             background-color: #000000;
-            color: #ffa500;
+            color: #ff5f00;
+            transform: scale(1.02);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
         }
 
         .content-center {
@@ -132,13 +157,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 2.5rem;
         }
 
         .pane-container {
             width: 100%;
             max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 40px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25);
+            padding: 3rem 2.5rem;
             text-align: center;
+            border: 1px solid #f0f0f0;
         }
 
         .tab-pane {
@@ -149,37 +179,40 @@
         }
 
         .placeholder-message {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 400;
-            color: #000000;  /* чёрный */
-            line-height: 1.5;
+            color: #000000;
+            line-height: 1.4;
         }
         .placeholder-message small {
             display: block;
-            font-size: 1.3rem;
-            color: #000000;
-            font-weight: 400;
+            font-size: 1.4rem;
+            color: #333333;
+            font-weight: 300;
             margin-top: 1.5rem;
-            border-top: 2px solid #000000;
-            padding-top: 1rem;
+            border-top: 1px solid #ccc;
+            padding-top: 1.2rem;
         }
 
-        /* --- Состояние: меню скрыто --- */
+        /* --- Скрытое меню --- */
         .app.sidebar-collapsed .sidebar {
             width: 0;
             padding: 0;
+            box-shadow: none;
         }
         .app.sidebar-collapsed .open-menu {
             display: block;
         }
 
-        /* Адаптивность */
-        @media (max-width: 650px) {
+        /* --- Адаптивность --- */
+        @media (max-width: 700px) {
             .app {
                 flex-direction: column;
             }
             .sidebar {
                 width: 100%;
+                border-radius: 0 0 20px 20px;
+                box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
                 padding: 1.5rem;
             }
             .close-menu {
@@ -193,23 +226,39 @@
             .open-menu {
                 top: 1rem;
                 left: 1rem;
+                font-size: 2.4rem;
+            }
+            .pane-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .menu-item {
+                font-size: 1.3rem;
+                padding: 0.8rem 1rem;
+            }
+            .placeholder-message {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="app" id="app">
-        <!-- Оранжевое меню -->
+        <!-- Боковое меню с логотипом -->
         <div class="sidebar" id="sidebar">
             <button class="close-menu" id="closeMenuBtn" aria-label="Закрыть меню">✕</button>
-            <h2>язык ·</h2>
+            <div class="logo-container">
+                <img src="logo.png" alt="логотип" class="logo">
+            </div>
             <button class="menu-item active" data-tab="about">О языке</button>
             <button class="menu-item" data-tab="alphabet">Алфавит</button>
             <button class="menu-item" data-tab="rules">Правила</button>
             <button class="menu-item" data-tab="exercises">Упражнения</button>
         </div>
 
-        <!-- Белая область контента -->
+        <!-- Основная белая область -->
         <div class="main-content">
             <button class="open-menu" id="openMenuBtn">☰</button>
             <div class="content-center">
@@ -217,7 +266,7 @@
                     <div id="about" class="tab-pane active-pane">
                         <div class="placeholder-message">
                             🌅 ничего нет
-                            <small>раздел об языке</small>
+                            <small>раздел о языке</small>
                         </div>
                     </div>
                     <div id="alphabet" class="tab-pane">
@@ -257,17 +306,14 @@
                 exercises: document.getElementById('exercises')
             };
 
-            // Закрыть меню
             closeBtn.addEventListener('click', () => {
                 app.classList.add('sidebar-collapsed');
             });
 
-            // Открыть меню
             openBtn.addEventListener('click', () => {
                 app.classList.remove('sidebar-collapsed');
             });
 
-            // Переключение вкладок
             function switchTab(tabId) {
                 menuItems.forEach(item => item.classList.remove('active'));
                 const activeItem = document.querySelector(`.menu-item[data-tab="${tabId}"]`);
@@ -284,7 +330,6 @@
                 });
             });
 
-            // Инициализация
             const initialActive = document.querySelector('.menu-item.active');
             if (initialActive) {
                 const initialTab = initialActive.getAttribute('data-tab');
