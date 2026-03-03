@@ -1,0 +1,111 @@
+/* Подключаем шрифт с поддержкой расширенной кириллицы */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+:root {
+    --gold-grad: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+    --bg-grad: radial-gradient(circle at top, #ffffff 0%, #fffdf5 100%);
+    --shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+}
+
+body { 
+    font-family: 'Montserrat', sans-serif; 
+    margin: 0; 
+    background: var(--bg-grad); 
+    color: #333; 
+    line-height: 1.7;
+    font-size: 18px; /* Увеличенный базовый шрифт */
+}
+
+/* Шапка с градиентной полосой */
+header { 
+    background: #fff; 
+    border-bottom: 4px solid transparent;
+    border-image: var(--gold-grad) 1;
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+nav { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 15px 5%; max-width: 1200px; margin: 0 auto; 
+}
+
+.logo-container { 
+    display: flex; align-items: center; gap: 15px; 
+    text-decoration: none; transition: transform 0.3s ease;
+}
+
+.logo-container:hover { transform: scale(1.05); }
+
+.logo-text { 
+    font-size: 28px; font-weight: 700; 
+    background: var(--gold-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-links { list-style: none; display: flex; gap: 30px; }
+.nav-links li a { 
+    text-decoration: none; color: #555; font-weight: 700; 
+    cursor: pointer; transition: 0.3s; position: relative;
+}
+
+.nav-links li a::after {
+    content: ''; position: absolute; width: 0; height: 3px; 
+    bottom: -5px; left: 0; background: var(--gold-grad); transition: 0.3s;
+}
+
+.nav-links li a:hover::after { width: 100%; }
+
+/* Контент с анимацией */
+.content-section { 
+    display: none; padding: 60px 5%; max-width: 1100px; margin: 0 auto; 
+}
+
+.content-section.active { 
+    display: block; animation: slideUp 0.6s ease-out; 
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 { font-size: 3.5rem; margin-bottom: 20px; font-weight: 700; text-align: center; }
+h2 { font-size: 2.5rem; border-bottom: 3px solid #ffd700; display: inline-block; margin-bottom: 30px; }
+
+/* Карточки алфавита */
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+    gap: 15px; margin-top: 30px; 
+}
+
+.card { 
+    background: #fff; border: 2px solid #f0f0f0; 
+    padding: 20px; text-align: center; border-radius: 15px; 
+    font-size: 1.6rem; font-weight: 700; transition: 0.4s;
+    box-shadow: 2px 5px 10px rgba(0,0,0,0.02);
+}
+
+.card:hover { 
+    border-color: #ffd700; transform: translateY(-10px) rotate(2deg);
+    box-shadow: var(--shadow);
+    background: #fffef0;
+}
+
+/* Элементы списков */
+.list-item { 
+    background: #fff; padding: 25px; border-radius: 20px; 
+    margin-bottom: 20px; border: 1px solid #eee;
+    box-shadow: var(--shadow); transition: 0.3s;
+}
+
+.list-item:hover { transform: scale(1.02); }
+
+.list-item b { color: #d4af37; font-size: 1.2rem; }
+
+/* Бургер-меню */
+.menu-toggle span { background: var(--gold-grad); }
