@@ -5,19 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вакеатэ Мовын</title>
     
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold-grad: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            --bg-color: #fffdf5;
+            --text-color: #333;
+            --shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            margin: 0; 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            line-height: 1.7;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        /* Шапка сайта */
+        header { 
+            background: #fff; 
+            border-bottom: 4px solid #ffd700;
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 5%; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+
+        .logo-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            text-decoration: none; 
+            cursor: pointer;
+        }
+
+        .logo-img { width: 50px; height: auto; }
+
+        .logo-text { 
+            font-size: 26px; 
+            font-weight: 700; 
+            background: var(--gold-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Навигация */
+        .nav-links { 
+            list-style: none; 
+            display: flex; 
+            gap: 25px; 
+            margin: 0; 
+            padding: 0;
+        }
+
+        .nav-links li a { 
+            text-decoration: none; 
+            color: #555; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-links li a:hover { color: #d4af37; }
+
+        /* Контентные секции */
+        .content-section { 
+            display: none; 
+            padding: 60px 5%; 
+            max-width: 1100px; 
+            margin: 0 auto; 
+        }
+
+        .content-section.active { 
+            display: block; 
+            animation: fadeInUp 0.6s ease; 
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 { font-size: 3.5rem; text-align: center; margin-bottom: 10px; }
+        h2 { font-size: 2.2rem; border-left: 6px solid #ffd700; padding-left: 15px; margin-bottom: 30px; }
+
+        /* Алфавит (Сетка) */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); 
+            gap: 15px; 
+        }
+
+        .card { 
+            background: #fff; 
+            border: 2px solid #eee; 
+            padding: 20px; 
+            text-align: center; 
+            border-radius: 12px; 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            transition: all 0.3s ease;
+        }
+
+        .card:hover { 
+            transform: translateY(-5px);
+            border-color: #ffd700;
+            box-shadow: var(--shadow);
+            background: #fffefb;
+        }
+
+        /* Списки (Словарь и Грамматика) */
+        .list-item { 
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 15px; 
+            margin-bottom: 15px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border-left: 5px solid #d4af37;
+            transition: transform 0.2s;
+        }
+
+        .list-item:hover { transform: translateX(10px); }
+
+        /* Мобильное меню */
+        .menu-toggle { display: none; flex-direction: column; cursor: pointer; gap: 4px; }
+        .menu-toggle span { width: 25px; height: 3px; background: #d4af37; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-links { 
+                display: none; 
+                flex-direction: column; 
+                position: absolute; 
+                top: 100%; left: 0; width: 100%; 
+                background: #fff; padding: 20px 0; 
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+            }
+            .nav-links.show { display: flex; }
+            h1 { font-size: 2.2rem; }
+        }
+    </style>
 </head>
 <body>
 
 <header>
     <nav>
         <div class="logo-container" onclick="showSection('home')">
-            <img src="logo.png" alt="logo" class="logo-img">
+            <img src="logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
             <span class="logo-text">Вакеатэ Мовын</span>
         </div>
-        <div class="menu-toggle" onclick="document.getElementById('nav-list').classList.toggle('show')">
+        
+        <div class="menu-toggle" onclick="toggleMenu()">
             <span></span><span></span><span></span>
         </div>
+
         <ul class="nav-links" id="nav-list">
             <li><a onclick="showSection('home')">Главная</a></li>
             <li><a onclick="showSection('alphabet')">Алфавит</a></li>
@@ -30,7 +185,7 @@
 <main>
     <section id="home" class="content-section active">
         <h1 id="h-title">Вакеатэ Мовын</h1>
-        <p id="h-desc" style="text-align: center; font-size: 1.4rem; color: #666;">Загрузка знаний...</p>
+        <p id="h-desc" style="text-align: center; font-size: 1.2rem; color: #555;">Загружаем лингвистические данные...</p>
     </section>
 
     <section id="alphabet" class="content-section">
@@ -50,45 +205,65 @@
 </main>
 
 <script>
-    // ТВОЯ ССЫЛКА НА JSON
+    // ТВОЯ ССЫЛКА НА JSON (Вставь её между кавычек)
     const DATA_URL = ''; 
 
-    async function fetchData() {
+    async function loadSiteData() {
         if (!DATA_URL) {
-            document.getElementById('h-desc').innerText = "Пожалуйста, укажите ссылку на data.json в коде.";
+            document.getElementById('h-desc').innerHTML = "<b>Ошибка:</b> Не забудь вставить ссылку на твой data.json в коде!";
             return;
         }
+
         try {
-            const response = await fetch(DATA_URL);
-            const data = await response.json();
-            render(data);
-        } catch (e) {
-            document.getElementById('h-title').innerText = "Ошибка";
+            const res = await fetch(DATA_URL);
+            const data = await res.json();
+            
+            // Заполнение главной
+            document.getElementById('h-title').innerText = "Вакеатэ Мовын";
+            document.getElementById('h-desc').innerText = "Это уникальный язык, построенный на основе русского. Мы создаём новую лингвистическую реальность.";
+
+            // Заполнение алфавита
+            const alphaGrid = document.getElementById('alpha-grid');
+            alphaGrid.innerHTML = data.alphabet.map(l => `<div class="card">${l}</div>`).join('');
+
+            // Заполнение грамматики
+            const gramList = document.getElementById('gram-list');
+            gramList.innerHTML = data.grammar.map(g => `
+                <div class="list-item">
+                    <h3 style="margin:0; color:#d4af37;">${g.title}</h3>
+                    <p style="margin:5px 0 0;">${g.text}</p>
+                </div>
+            `).join('');
+
+            // Заполнение словаря
+            const vocabList = document.getElementById('vocab-list');
+            vocabList.innerHTML = data.dictionary.map(v => `
+                <div class="list-item">
+                    <span style="font-weight:700; font-size:1.1rem;">${v.word}</span> 
+                    <span style="color:#888; margin: 0 10px;">—</span> 
+                    <span>${v.translation}</span>
+                </div>
+            `).join('');
+
+        } catch (error) {
+            document.getElementById('h-desc').innerText = "Ошибка загрузки data.json. Проверь файл!";
+            console.error(error);
         }
-    }
-
-    function render(data) {
-        document.getElementById('h-title').innerText = "Вакеатэ Мовын";
-        document.getElementById('h-desc').innerText = "Уникальный лингвистический проект на базе русского языка.";
-
-        document.getElementById('alpha-grid').innerHTML = data.alphabet.map(l => `<div class="card">${l}</div>`).join('');
-        
-        document.getElementById('gram-list').innerHTML = data.grammar.map(r => `
-            <div class="list-item"><h3>${r.title}</h3><p>${r.text}</p></div>
-        `).join('');
-
-        document.getElementById('vocab-list').innerHTML = data.dictionary.map(v => `
-            <div class="list-item"><b>${v.word}</b> — ${v.translation}</div>
-        `).join('');
     }
 
     function showSection(id) {
         document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
+        document.getElementById('nav-list').classList.remove('show');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    fetchData();
+    function toggleMenu() {
+        document.getElementById('nav-list').classList.toggle('show');
+    }
+
+    // Запускаем всё
+    loadSiteData();
 </script>
 
 </body>
