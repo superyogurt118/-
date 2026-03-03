@@ -4,188 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вакеатэ Мовын</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --gold-grad: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
             --bg-color: #fffdf5;
+            --header-bg: #ffffff;
             --text-color: #333;
-            --shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+            --card-bg: #ffffff;
+            --card-border: #eeeeee;
+            --gold-grad: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            --shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --header-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --card-border: #333333;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         body { 
-            font-family: 'Montserrat', sans-serif; 
-            margin: 0; 
-            background: var(--bg-color); 
-            color: var(--text-color); 
-            line-height: 1.7;
-            font-size: 18px;
-            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif; margin: 0; 
+            background: var(--bg-color); color: var(--text-color); 
+            line-height: 1.7; font-size: 18px; transition: 0.3s;
         }
 
-        /* Шапка сайта */
         header { 
-            background: #fff; 
-            border-bottom: 4px solid #ffd700;
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            background: var(--header-bg); border-bottom: 4px solid #ffd700;
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
-        nav { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 10px 5%; 
-            max-width: 1200px; 
-            margin: 0 auto; 
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; max-width: 1200px; margin: 0 auto; }
+        .logo-text { font-size: 26px; font-weight: 700; background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
+
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-links { list-style: none; display: flex; gap: 20px; padding: 0; margin: 0; }
+        .nav-links li a { text-decoration: none; color: var(--text-color); font-weight: 700; cursor: pointer; }
+
+        #theme-btn {
+            background: var(--gold-grad); border: none; color: #fff;
+            padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold;
         }
 
-        .logo-container { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            text-decoration: none; 
-            cursor: pointer;
-        }
+        .content-section { display: none; padding: 40px 5%; max-width: 1000px; margin: 0 auto; }
+        .content-section.active { display: block; animation: fadeInUp 0.4s ease; }
 
-        .logo-img { width: 50px; height: auto; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .logo-text { 
-            font-size: 26px; 
-            font-weight: 700; 
-            background: var(--gold-grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Навигация */
-        .nav-links { 
-            list-style: none; 
-            display: flex; 
-            gap: 25px; 
-            margin: 0; 
-            padding: 0;
-        }
-
-        .nav-links li a { 
-            text-decoration: none; 
-            color: #555; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .nav-links li a:hover { color: #d4af37; }
-
-        /* Контентные секции */
-        .content-section { 
-            display: none; 
-            padding: 60px 5%; 
-            max-width: 1100px; 
-            margin: 0 auto; 
-        }
-
-        .content-section.active { 
-            display: block; 
-            animation: fadeInUp 0.6s ease; 
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 { font-size: 3.5rem; text-align: center; margin-bottom: 10px; }
-        h2 { font-size: 2.2rem; border-left: 6px solid #ffd700; padding-left: 15px; margin-bottom: 30px; }
-
-        /* Алфавит (Сетка) */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); 
-            gap: 15px; 
-        }
-
+        /* Карточки Алфавита */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; }
         .card { 
-            background: #fff; 
-            border: 2px solid #eee; 
-            padding: 20px; 
-            text-align: center; 
-            border-radius: 12px; 
-            font-size: 1.5rem; 
-            font-weight: 700; 
-            transition: all 0.3s ease;
+            background: var(--card-bg); border: 2px solid var(--card-border); 
+            padding: 25px 10px; text-align: center; border-radius: 15px; 
+            font-size: 1.6rem; font-weight: 700; transition: 0.2s; 
+            cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+        }
+        .card:active { border-color: #ffd700; transform: scale(0.95); box-shadow: var(--shadow); }
+
+        /* Всплывающая подсказка */
+        #speech-bubble {
+            position: fixed; top: 120px; left: 50%; transform: translateX(-50%);
+            background: var(--gold-grad); color: white; padding: 12px 30px;
+            border-radius: 50px; font-weight: bold; z-index: 2000;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); display: none;
         }
 
-        .card:hover { 
-            transform: translateY(-5px);
-            border-color: #ffd700;
-            box-shadow: var(--shadow);
-            background: #fffefb;
-        }
+        .list-item { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 6px solid #d4af37; box-shadow: var(--shadow); }
 
-        /* Списки (Словарь и Грамматика) */
-        .list-item { 
-            background: #fff; 
-            padding: 20px; 
-            border-radius: 15px; 
-            margin-bottom: 15px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            border-left: 5px solid #d4af37;
-            transition: transform 0.2s;
-        }
-
-        .list-item:hover { transform: translateX(10px); }
-
-        /* Мобильное меню */
-        .menu-toggle { display: none; flex-direction: column; cursor: pointer; gap: 4px; }
-        .menu-toggle span { width: 25px; height: 3px; background: #d4af37; }
-
-        @media (max-width: 768px) {
-            .menu-toggle { display: flex; }
-            .nav-links { 
-                display: none; 
-                flex-direction: column; 
-                position: absolute; 
-                top: 100%; left: 0; width: 100%; 
-                background: #fff; padding: 20px 0; 
-                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
-            }
-            .nav-links.show { display: flex; }
-            h1 { font-size: 2.2rem; }
-        }
+        @media (max-width: 768px) { .nav-links { display: none; } }
     </style>
 </head>
 <body>
 
+<div id="speech-bubble"></div>
+
 <header>
     <nav>
-        <div class="logo-container" onclick="showSection('home')">
-            <img src="logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
-            <span class="logo-text">Вакеатэ Мовын</span>
+        <div class="logo-text" onclick="showSection('home')">Вакеатэ Мовын</div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a onclick="showSection('alphabet')">Алфавит</a></li>
+                <li><a onclick="showSection('grammar')">Грамматика</a></li>
+                <li><a onclick="showSection('vocab')">Словарь</a></li>
+            </ul>
+            <button id="theme-btn" onclick="cycleTheme()">Тема: Авто</button>
         </div>
-        
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </div>
-
-        <ul class="nav-links" id="nav-list">
-            <li><a onclick="showSection('home')">Главная</a></li>
-            <li><a onclick="showSection('alphabet')">Алфавит</a></li>
-            <li><a onclick="showSection('grammar')">Грамматика</a></li>
-            <li><a onclick="showSection('vocab')">Словарь</a></li>
-        </ul>
     </nav>
 </header>
 
 <main>
     <section id="home" class="content-section active">
-        <h1 id="h-title">Вакеатэ Мовын</h1>
-        <p id="h-desc" style="text-align: center; font-size: 1.2rem; color: #555;">Загружаем лингвистические данные...</p>
+        <h1 style="text-align: center; font-size: 3.5rem; margin-top: 0;">Вакеатэ Мовын</h1>
+        <p style="text-align: center; font-size: 1.3rem;">Интерактивный путеводитель по языку. <br><b>Нажми и удерживай букву</b>, чтобы узнать её чтение.</p>
     </section>
 
     <section id="alphabet" class="content-section">
@@ -193,78 +106,91 @@
         <div class="grid" id="alpha-grid"></div>
     </section>
 
-    <section id="grammar" class="content-section">
-        <h2>Грамматика</h2>
-        <div id="gram-list"></div>
-    </section>
-
-    <section id="vocab" class="content-section">
-        <h2>Словарь</h2>
-        <div id="vocab-list"></div>
-    </section>
+    <section id="grammar" class="content-section"><h2>Грамматика</h2><div id="gram-list"></div></section>
+    <section id="vocab" class="content-section"><h2>Словарь</h2><div id="vocab-list"></div></section>
 </main>
 
 <script>
-    // ТВОЯ ССЫЛКА НА JSON (Вставь её между кавычек)
+    // --- ССЫЛКА НА ТВОЙ ФАЙЛ ---
     const DATA_URL = 'https://raw.githubusercontent.com/superyogurt118/Amyoba/refs/heads/main/data.json'; 
 
-    async function loadSiteData() {
-        if (!DATA_URL) {
-            document.getElementById('h-desc').innerHTML = "<b>Ошибка:</b> Не забудь вставить ссылку на твой data.json в коде!";
-            return;
+    // --- ФОНЕТИЧЕСКИЕ ПРАВИЛА ---
+    const RULES = {
+        'Ӵ': 'Читается как [ч]',
+        'Ӝ': 'Читается как [жь]',
+        'Ӟ': 'Читается как [зь]',
+        'Ч': 'Читается как [тш]',
+        'ӥ': 'Читается как [йи]',
+        'ӧ': 'Читается как [оу]',
+        'Ѣ': 'Читается как [ых]'
+    };
+
+    // --- ЛОГИКА ТЕМ ---
+    let themeIdx = 0; // 0: auto, 1: light, 2: dark
+    const themes = ['auto', 'light', 'dark'];
+
+    function cycleTheme() {
+        themeIdx = (themeIdx + 1) % 3;
+        const current = themes[themeIdx];
+        const btn = document.getElementById('theme-btn');
+        
+        if (current === 'auto') {
+            const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.body.setAttribute('data-theme', dark ? 'dark' : 'light');
+            btn.innerText = "Тема: Авто";
+        } else {
+            document.body.setAttribute('data-theme', current);
+            btn.innerText = current === 'dark' ? "Тема: Тёмная" : "Тема: Светлая";
         }
+    }
+
+    // --- ИНИЦИАЛИЗАЦИЯ ДАННЫХ ---
+    async function loadData() {
+        // Установка начальной темы
+        const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.setAttribute('data-theme', dark ? 'dark' : 'light');
+
+        if (!DATA_URL) return;
 
         try {
-            const res = await fetch(DATA_URL);
-            const data = await res.json();
+            const response = await fetch(DATA_URL);
+            const data = await response.json();
             
-            // Заполнение главной
-            document.getElementById('h-title').innerText = "Вакеатэ Мовын";
-            document.getElementById('h-desc').innerText = "Это уникальный язык, построенный на основе русского. Мы создаём новую лингвистическую реальность.";
+            const grid = document.getElementById('alpha-grid');
+            grid.innerHTML = data.alphabet.map(l => {
+                // Извлекаем чистую букву для поиска правила (убираем "А а" -> оставляем "А")
+                let char = l.split(' ')[0];
+                return `<div class="card" 
+                    onmousedown="showTip('${char}')" 
+                    onmouseup="hideTip()" 
+                    ontouchstart="showTip('${char}')" 
+                    ontouchend="hideTip()">${l}</div>`;
+            }).join('');
 
-            // Заполнение алфавита
-            const alphaGrid = document.getElementById('alpha-grid');
-            alphaGrid.innerHTML = data.alphabet.map(l => `<div class="card">${l}</div>`).join('');
+            document.getElementById('gram-list').innerHTML = data.grammar.map(g => `<div class="list-item"><h3>${g.title}</h3><p>${g.text}</p></div>`).join('');
+            document.getElementById('vocab-list').innerHTML = data.dictionary.map(v => `<div class="list-item"><b>${v.word}</b> — ${v.translation}</div>`).join('');
+        } catch (e) { console.error("Ошибка загрузки:", e); }
+    }
 
-            // Заполнение грамматики
-            const gramList = document.getElementById('gram-list');
-            gramList.innerHTML = data.grammar.map(g => `
-                <div class="list-item">
-                    <h3 style="margin:0; color:#d4af37;">${g.title}</h3>
-                    <p style="margin:5px 0 0;">${g.text}</p>
-                </div>
-            `).join('');
+    // --- ПОДСКАЗКИ ---
+    function showTip(char) {
+        const bubble = document.getElementById('speech-bubble');
+        const text = RULES[char] || RULES[char.toUpperCase()] || RULES[char.toLowerCase()] || "Обычное чтение";
+        bubble.innerText = text;
+        bubble.style.display = 'block';
+    }
 
-            // Заполнение словаря
-            const vocabList = document.getElementById('vocab-list');
-            vocabList.innerHTML = data.dictionary.map(v => `
-                <div class="list-item">
-                    <span style="font-weight:700; font-size:1.1rem;">${v.word}</span> 
-                    <span style="color:#888; margin: 0 10px;">—</span> 
-                    <span>${v.translation}</span>
-                </div>
-            `).join('');
-
-        } catch (error) {
-            document.getElementById('h-desc').innerText = "Ошибка загрузки data.json. Проверь файл!";
-            console.error(error);
-        }
+    function hideTip() {
+        document.getElementById('speech-bubble').style.display = 'none';
     }
 
     function showSection(id) {
         document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        document.getElementById('nav-list').classList.remove('show');
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        window.scrollTo(0,0);
     }
 
-    function toggleMenu() {
-        document.getElementById('nav-list').classList.toggle('show');
-    }
-
-    // Запускаем всё
-    loadSiteData();
+    loadData();
 </script>
-
 </body>
 </html>
