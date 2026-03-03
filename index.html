@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Учимся вместе</title>
+    <title>Вакиатэ Мовын</title>
     <style>
         /* Общие стили */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #fffdf5; /* Очень светлый жёлтый оттенок фона */
+            background-color: #fffdf5;
             color: #333;
         }
 
@@ -28,16 +28,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%;
+            padding: 10px 5%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .logo {
+        /* Контейнер для логотипа и названия */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px; /* Расстояние между картинкой и текстом */
+        }
+
+        .logo-img {
+            width: 40px;  /* Высота логотипа */
+            height: auto;
+            display: block;
+        }
+
+        .logo-text {
             font-size: 24px;
             font-weight: bold;
             color: #d4af37;
-            text-decoration: none;
         }
 
         .nav-links {
@@ -109,7 +122,7 @@
             }
 
             .nav-links {
-                display: none; /* Скрываем по умолчанию */
+                display: none;
                 flex-direction: column;
                 position: absolute;
                 top: 100%;
@@ -119,11 +132,10 @@
                 padding: 20px 0;
                 text-align: center;
                 border-bottom: 2px solid #ffd700;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             }
 
             .nav-links.active {
-                display: flex; /* Показываем при клике */
+                display: flex;
             }
 
             .nav-links li {
@@ -136,7 +148,10 @@
 
 <header>
     <nav>
-        <a href="#" class="logo">ЛингвоЁж</a>
+        <a href="#" class="logo-container">
+            <img src="logo.png" alt="Логотип" class="logo-img">
+            <span class="logo-text">Вакиатэ Мовын</span>
+        </a>
         
         <div class="menu-toggle" id="mobile-menu">
             <span></span>
@@ -157,7 +172,7 @@
 <main>
     <section class="hero">
         <h1>Добро пожаловать!</h1>
-        <p>Изучайте языки легко в тёплой и светлой атмосфере.</p>
+        <p>Изучайте языки легко в тёплой и светлой атмосфере с Вакиатэ Мовын.</p>
         <br>
         <button class="btn-yellow">Начать обучение</button>
     </section>
