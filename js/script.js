@@ -1,6 +1,5 @@
-// --- ТВОИ НАСТРОЙКИ ---
 const CONFIG = {
-    dataUrl: 'https://raw.githubusercontent.com/superyogurt118/Amyoba/refs/heads/main/data.json',        // <--- ВСТАВЬ ССЫЛКУ НА RAW JSON СЮДА
+    dataUrl: 'https://raw.githubusercontent.com/superyogurt118/Amyoba/refs/heads/main/data.json', // <-- ВСТАВЬ СВОЮ ССЫЛКУ RAW JSON СЮДА
     logoPath: 'logo.png' 
 };
 
@@ -8,70 +7,54 @@ const PHONETICS = {
     'Ӵ': 'ч', 'Ӝ': 'жь', 'Ӟ': 'зь', 'Ч': 'тш', 'ӥ': 'йи', 'ӧ': 'оу', 'Ѣ': 'ых'
 };
 
-function speak(text) {
-    window.speechSynthesis.cancel();
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.lang = 'ru-RU';
-    msg.rate = 0.8; 
-    window.speechSynthesis.speak(msg);
+function press(char) {
+    const bubble = document.getElementById('speech-bubble');
+    const sound = PHONETICS[char] || PHONETICS[char.toUpperCase()] || char;
+    bubble.innerText = PHONETICS[char] ? `Читается как [${sound}]` : `Буква ${char}`;
+    bubble.style.display = 'block';
 }
 
-let themeIdx = 0;
-const themes = ['auto', 'light', 'dark'];
+function stop() {
+    document.getElementById('speech-bubble').style.display = 'none';
+}
+
 function cycleTheme() {
-    themeIdx = (themeIdx + 1) % 3;
-    applyTheme(themes[themeIdx]);
+    const body = document.body;
+    const current = body.getAttribute('data-theme');
+    body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
 }
 
-function applyTheme(t) {
-    const btn = document.getElementById('theme-btn');
-    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    let active = t === 'auto' ? (dark ? 'dark' : 'light') : t;
-    document.body.setAttribute('data-theme', active);
-    btn.innerText = t === 'auto' ? "Тема: Авто" : (t === 'dark' ? "Тема: Тёмная" : "Тема: Светлая");
+function showSection(id) {
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
 }
 
 async function load() {
-    // Автоматически подставляем логотип из настроек
-    const img = document.getElementById('main-logo');
-    if (img) img.src = CONFIG.logoPath;
-
-    applyTheme('auto');
+    document.getElementById('main-logo').src = CONFIG.logoPath;
     const loader = document.getElementById('loader');
     const content = document.getElementById('main-content');
-
-    if (!CONFIG.dataUrl) {
-        loader.innerHTML = "<p>Нужна ссылка на JSON в CONFIG.dataUrl</p>";
-        return;
-    }
+    
+    if (!CONFIG.dataUrl) return;
 
     try {
         const r = await fetch(CONFIG.dataUrl);
         const d = await r.json();
         
         document.getElementById('alpha-grid').innerHTML = d.alphabet.map(l => {
-            let c = l.split(' ')[0];
-            let s = PHONETICS[c] || PHONETICS[c.toUpperCase()] || c;
-            return `<div class="card"><span>${l}</span><button class="speak-btn" onclick="speak('${s}')">🔊</button></div>`;
+            let char = l.split(' ')[0];
+            return `<div class="card" 
+                onmousedown="press('${char}')" onmouseup="stop()" 
+                ontouchstart="press('${char}')" ontouchend="stop()">${l}</div>`;
         }).join('');
 
         document.getElementById('vocab-list').innerHTML = d.dictionary.map(v => `
-            <div class="list-item">
-                <span><b>${v.word}</b> — ${v.translation}</span>
-                <button class="speak-btn" onclick="speak('${v.word}')">🔊</button>
-            </div>`).join('');
+            <div class="list-item"><b>${v.word}</b> — ${v.translation}</div>`).join('');
 
         loader.classList.add('hidden');
         content.classList.remove('hidden');
     } catch (e) { 
-        loader.innerHTML = "<p>Ошибка загрузки данных.</p>";
+        loader.innerHTML = "<p>Ошибка загрузки данных. Проверьте ссылку.</p>"; 
     }
-}
-
-function showSection(id) {
-    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0,0);
 }
 
 window.onload = load;
