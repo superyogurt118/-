@@ -11,7 +11,10 @@
 <body>
 
 <header>
-    <div class="logo" onclick="showSection('home')">Вакеатэ Мовын</div>
+    <div class="logo-container" onclick="showSection('home')">
+        <img id="main-logo" src="" alt="Лого" class="logo-img">
+        <div class="logo-text">Вакеатэ Мовын</div>
+    </div>
     <div class="nav-right">
         <span class="nav-links">
             <a onclick="showSection('alphabet')">Буквы</a>
@@ -22,20 +25,25 @@
 </header>
 
 <main>
-    <section id="home" class="content-section active">
-        <h1>Датчэ!</h1>
-        <p>Добро пожаловать. Нажми на иконку 🔊, чтобы услышать произношение.</p>
-    </section>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; font-weight: bold;">Загрузка данных...</p>
+    </div>
 
-    <section id="alphabet" class="content-section">
-        <h2>Алфавит</h2>
-        <div class="grid" id="alpha-grid"></div>
-    </section>
-
-    <section id="vocab" class="content-section">
-        <h2>Словарь</h2>
-        <div id="vocab-list"></div>
-    </section>
+    <div id="main-content" class="hidden">
+        <section id="home" class="content-section active">
+            <h1>Датчэ! 👋</h1>
+            <p>Добро пожаловать. Буква **Ё** на месте!</p>
+        </section>
+        <section id="alphabet" class="content-section">
+            <h2>Алфавит</h2>
+            <div class="grid" id="alpha-grid"></div>
+        </section>
+        <section id="vocab" class="content-section">
+            <h2>Словарь</h2>
+            <div id="vocab-list"></div>
+        </section>
+    </div>
 </main>
 
 <script src="js/script.js"></script>
