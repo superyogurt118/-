@@ -1,5 +1,5 @@
 // 1. Ссылка на твой RAW JSON (обязательно вставь свою!)
-const DATA_URL = ''; 
+const DATA_URL = 'https://raw.githubusercontent.com/superyogurt118/Amyoba/refs/heads/main/data.json'; 
 
 // 2. Твои правила произношения (фонетика)
 const PHONETICS = {
