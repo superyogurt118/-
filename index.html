@@ -34,23 +34,21 @@
             margin: 0 auto;
         }
 
-        /* Контейнер для логотипа и названия */
         .logo-container {
             display: flex;
             align-items: center;
             text-decoration: none;
-            gap: 20px; /* Увеличен зазор */
+            gap: 20px;
         }
 
         .logo-img {
-            width: 80px;  /* Логотип стал в два раза крупнее */
+            width: 80px;
             height: auto;
             display: block;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
         .logo-text {
-            font-size: 28px; /* Текст названия тоже чуть увеличил */
+            font-size: 28px;
             font-weight: bold;
             color: #d4af37;
             letter-spacing: 1px;
@@ -75,6 +73,63 @@
             color: #ffd700;
         }
 
+        /* Герой-секция */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Секция Алфавита */
+        .alphabet-section {
+            padding: 40px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1);
+            border: 1px solid #fff9e6;
+        }
+
+        .letter-card {
+            background: #fff;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 15px 5px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .letter-card:hover {
+            border-color: #ffd700;
+            background-color: #fffdf5;
+            transform: translateY(-3px);
+        }
+
+        /* Стиль для особых букв */
+        .special-letter {
+            border-color: #ffd700;
+            color: #d4af37;
+            background-color: #fffef0;
+        }
+
         /* Кнопка меню (гамбургер) */
         .menu-toggle {
             display: none;
@@ -90,43 +145,10 @@
             border-radius: 2px;
         }
 
-        /* Контент */
-        .hero {
-            text-align: center;
-            padding: 120px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            background: linear-gradient(180deg, #ffffff 0%, #fff9e6 100%);
-            border-radius: 0 0 50px 50px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Адаптивность */
         @media (max-width: 768px) {
-            .logo-img {
-                width: 60px; /* Чуть меньше на мобилках, чтобы влезло */
-            }
-            
-            .logo-text {
-                font-size: 20px;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
+            .logo-img { width: 60px; }
+            .logo-text { font-size: 20px; }
+            .menu-toggle { display: flex; }
             .nav-links {
                 display: none;
                 flex-direction: column;
@@ -136,21 +158,10 @@
                 width: 100%;
                 background-color: #fff;
                 padding: 20px 0;
-                text-align: center;
                 border-bottom: 2px solid #ffd700;
             }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links li {
-                margin: 15px 0;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
+            .nav-links.active { display: flex; }
+            .nav-links li { margin: 15px 0; }
         }
     </style>
 </head>
@@ -187,6 +198,30 @@
             но мы пытаемся сделать из русского языка что-то уникальное. 
             Добро пожаловать!
         </p>
+    </section>
+
+    <section class="alphabet-section">
+        <h2>Алфавит</h2>
+        <div class="alphabet-grid">
+            <div class="letter-card">А</div><div class="letter-card">Б</div><div class="letter-card">В</div>
+            <div class="letter-card">Г</div><div class="letter-card">Д</div><div class="letter-card">Е</div>
+            <div class="letter-card">Ё</div><div class="letter-card">Ж</div><div class="letter-card">З</div>
+            <div class="letter-card">И</div><div class="letter-card">Й</div><div class="letter-card">К</div>
+            <div class="letter-card">Л</div><div class="letter-card">М</div><div class="letter-card">Н</div>
+            <div class="letter-card">О</div><div class="letter-card">П</div><div class="letter-card">Р</div>
+            <div class="letter-card">С</div><div class="letter-card">Т</div><div class="letter-card">У</div>
+            <div class="letter-card">Ф</div><div class="letter-card">Х</div><div class="letter-card">Ц</div>
+            <div class="letter-card">Ч</div><div class="letter-card">Ш</div><div class="letter-card">Щ</div>
+            <div class="letter-card">Ъ</div><div class="letter-card">Ы</div><div class="letter-card">Ь</div>
+            <div class="letter-card">Э</div><div class="letter-card">Ю</div><div class="letter-card">Я</div>
+            
+            <div class="letter-card special-letter">Ѣ</div>
+            <div class="letter-card special-letter">Ӟ</div>
+            <div class="letter-card special-letter">Ӵ</div>
+            <div class="letter-card special-letter">Ӝ</div>
+            <div class="letter-card special-letter">Ӧ</div>
+            <div class="letter-card special-letter">Ӥ</div>
+        </div>
     </section>
 </main>
 
