@@ -70,21 +70,14 @@
             cursor: pointer;
         }
 
-        .logo-emoji {
-            width: 44px;
-            height: 44px;
-            background: var(--gold-grad);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 800;
-            font-size: 26px;
-            box-shadow: 0 6px 14px rgba(212, 175, 55, 0.4);
+        /* Логотип — изображение (logo.png) */
+        .logo-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
             transition: transform 0.2s;
         }
-        .logo-container:hover .logo-emoji {
+        .logo-container:hover .logo-img {
             transform: rotate(4deg) scale(1.02);
         }
 
@@ -318,10 +311,10 @@
 <!-- плавающее произношение -->
 <div id="speech-bubble"></div>
 
-<!-- ШАПКА -->
+<!-- ШАПКА с логотипом из файла logo.png -->
 <header>
     <div class="logo-container" onclick="showSection('home')">
-        <div class="logo-emoji">В</div>
+        <img id="main-logo" src="logo.png" alt="Лого" class="logo-img">
         <div class="logo-text">Вакеатэ Мовын</div>
     </div>
     <div class="nav-right">
@@ -334,7 +327,7 @@
 </header>
 
 <main>
-    <!-- Главная — теперь просто добро пожаловать -->
+    <!-- Главная — добро пожаловать -->
     <section id="home" class="content-section active">
         <h1 style="font-weight: 800; font-size: clamp(2rem, 8vw, 3.5rem);">Добро пожаловать! 👋</h1>
         <p style="font-size: 1.3rem; opacity: 0.8; line-height: 1.6; max-width: 700px;">
@@ -356,8 +349,9 @@
     </section>
 </main>
 
+<!-- Подвал — без лишней фразы "тонкий намёк" -->
 <footer>
-    <span>ᚡ Vakeate Movyn · тонкий намёк</span>
+    <span></span>
 </footer>
 
 <script>
