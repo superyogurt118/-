@@ -6,7 +6,6 @@
     <title>Вакеатэ Мовын · словарь</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* ----- ОСНОВНЫЕ НАСТРОЙКИ ----- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -49,7 +48,6 @@
             flex-direction: column;
         }
 
-        /* ---------- ШАПКА ---------- */
         header {
             position: sticky;
             top: 0;
@@ -125,7 +123,7 @@
             box-shadow: 0 6px 14px rgba(var(--accent-rgb), 0.3);
         }
 
-        #theme-btn {
+        #theme-btn, #alzheimer-btn {
             background: var(--gold-grad);
             border: none;
             color: white;
@@ -138,12 +136,11 @@
             transition: 0.2s;
             border: 1px solid rgba(255,255,255,0.2);
         }
-        #theme-btn:hover {
+        #theme-btn:hover, #alzheimer-btn:hover {
             transform: scale(1.02);
             box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.5);
         }
 
-        /* ---------- ВЫБОР ЦВЕТА (со сворачиванием) ---------- */
         .color-picker-wrapper {
             position: relative;
             display: flex;
@@ -192,7 +189,6 @@
             box-shadow: 0 0 0 2px var(--accent);
         }
 
-        /* ---------- ПОДСКАЗКА ПРОИЗНОШЕНИЯ ---------- */
         #speech-bubble {
             position: fixed;
             top: 90px;
@@ -221,7 +217,6 @@
             to { opacity: 1; transform: translateX(-50%) scale(1); }
         }
 
-        /* ---------- ОСНОВНОЙ КОНТЕЙНЕР ---------- */
         main {
             padding: 40px 6%;
             max-width: 1200px;
@@ -253,7 +248,6 @@
             padding-left: 18px;
         }
 
-        /* ---------- СЕТКА АЛФАВИТА ---------- */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -281,7 +275,6 @@
             box-shadow: 0 20px 40px rgba(var(--accent-rgb), 0.25);
         }
 
-        /* ---------- СЛОВАРЬ + ПОИСК + ФИЛЬТРЫ ---------- */
         .search-bar {
             width: 100%;
             padding: 16px 20px;
@@ -390,7 +383,6 @@
             background: var(--card);
         }
 
-        /* ---------- ЦИТАТЫ ---------- */
         .quote-block {
             background: var(--card);
             border-radius: 40px;
@@ -424,7 +416,7 @@
         @media (max-width: 550px) {
             .logo-text { font-size: 1.1rem; }
             .nav-links a { padding: 6px 12px; font-size: 0.85rem; }
-            #theme-btn { padding: 6px 16px; }
+            #theme-btn, #alzheimer-btn { padding: 6px 16px; }
             .card { font-size: 2rem; padding: 25px 5px; }
             .vocab-word { font-size: 1.7rem; }
         }
@@ -446,9 +438,9 @@
             <a onclick="showSection('quotes')">Цитаты</a>
         </nav>
 
-        <!-- Цветовая палитра со сворачиванием и сменой иконки -->
+        <!-- Цветовая палитра: изначально открыта, кнопка ❌ -->
         <div class="color-picker-wrapper">
-            <span class="color-picker-toggle" id="colorPickerToggle" title="Выбрать цвет">🎨</span>
+            <span class="color-picker-toggle" id="colorPickerToggle" title="Выбрать цвет">❌</span>
             <div class="color-picker" id="colorPicker">
                 <div class="color-dot active" style="background: #d4af37;" data-color="gold" title="Золотой"></div>
                 <div class="color-dot" style="background: #3b82f6;" data-color="blue" title="Синий"></div>
@@ -458,17 +450,18 @@
             </div>
         </div>
 
+        <button id="alzheimer-btn" onclick="toggleAlzheimer()">🧠 Альцгеймер</button>
         <button id="theme-btn" onclick="cycleTheme()">🌓 Тема</button>
     </div>
 </header>
 
 <main>
     <section id="home" class="content-section active">
-        <h1 style="font-weight: 800; font-size: clamp(2rem, 8vw, 3.5rem);">Добро пожаловать! 👋</h1>
-        <p style="font-size: 1.3rem; opacity: 0.8; line-height: 1.6; max-width: 700px;">
+        <h1 id="home-title" style="font-weight: 800; font-size: clamp(2rem, 8vw, 3.5rem);">Добро пожаловать! 👋</h1>
+        <p id="home-desc" style="font-size: 1.3rem; opacity: 0.8; line-height: 1.6; max-width: 700px;">
             Здесь вы найдёте алфавит, словарь и мудрые цитаты языка Вакеатэ Мовын.
         </p>
-        <p style="margin-top: 30px; font-size: 1.1rem;">✨ В словарь добавлены новые выражения и цифры.</p>
+        <p id="home-note" style="margin-top: 30px; font-size: 1.1rem;">✨ В словарь добавлены новые выражения и цифры.</p>
     </section>
 
     <section id="alphabet" class="content-section">
@@ -486,8 +479,8 @@
     <section id="quotes" class="content-section">
         <h2>✧ Цитаты великих людей</h2>
         <div class="quote-block">
-            <div class="quote-text">«почему я жаемна»</div>
-            <div class="quote-author">— Автор Сибилевца</div>
+            <div class="quote-text" id="quote-text">«почему я жаемна»</div>
+            <div class="quote-author" id="quote-author">— Автор Сибилевца</div>
         </div>
     </section>
 </main>
@@ -513,10 +506,8 @@
                 { char: "Э", pron: "э" }, { char: "Ю", pron: "ю" }, { char: "Я", pron: "я" }
             ],
             dictionary: [
-                // Два похожих слова теперь рядом и оба с большой буквы
                 { word: "Жаёмна", translation: "потеряться в магазине ночью", part: "глагол" },
                 { word: "Жаемна", translation: "автор Сибилевца", part: "существительное" },
-                // Остальные слова
                 { word: "Акоп", translation: "привет", part: "междометие" },
                 { word: "Привытэх", translation: "пока", part: "междометие" },
                 { word: "Тоӝма", translation: "один (1)", part: "числительное" },
@@ -534,11 +525,46 @@
 
         let currentFilter = 'все';
         let searchQuery = '';
+        let alzheimerMode = false;
+
+        try {
+            const saved = localStorage.getItem('vakeate-alzheimer');
+            if (saved === 'true') alzheimerMode = true;
+        } catch (e) {}
+
+        function maybeRepeat(text) {
+            if (!alzheimerMode) return text;
+            return text + ' ' + text;
+        }
+
+        function saveAlzheimer() {
+            localStorage.setItem('vakeate-alzheimer', alzheimerMode);
+        }
+
+        function toggleAlzheimer() {
+            alzheimerMode = !alzheimerMode;
+            saveAlzheimer();
+
+            document.getElementById('home-title').innerText = maybeRepeat('Добро пожаловать! 👋');
+            document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь и мудрые цитаты языка Вакеатэ Мовын.');
+            document.getElementById('home-note').innerText = maybeRepeat('✨ В словарь добавлены новые выражения и цифры.');
+            document.getElementById('quote-text').innerText = maybeRepeat('«почему я жаемна»');
+            document.getElementById('quote-author').innerText = maybeRepeat('— Автор Сибилевца');
+
+            renderAlphabet();
+            renderFilterBar();
+            renderVocab();
+
+            const bubble = document.getElementById('speech-bubble');
+            if (bubble.style.display === 'block') {
+                bubble.style.display = 'none';
+            }
+        }
 
         function showHint(text) {
             const bubble = document.getElementById('speech-bubble');
             if (bubble) {
-                bubble.innerText = `🔊 [${text}]`;
+                bubble.innerText = `🔊 [${maybeRepeat(text)}]`;
                 bubble.style.display = 'block';
             }
         }
@@ -655,7 +681,7 @@
             const parts = getUniqueParts();
             container.innerHTML = parts.map(part => {
                 const activeClass = part === currentFilter ? 'active' : '';
-                return `<span class="filter-tag ${activeClass}" data-part="${part}">${part}</span>`;
+                return `<span class="filter-tag ${activeClass}" data-part="${part}">${maybeRepeat(part)}</span>`;
             }).join('');
 
             document.querySelectorAll('.filter-tag').forEach(tag => {
@@ -686,7 +712,7 @@
             }
 
             if (filtered.length === 0) {
-                container.innerHTML = '<div class="empty-msg">📭 Ничего не найдено</div>';
+                container.innerHTML = `<div class="empty-msg">${maybeRepeat('📭 Ничего не найдено')}</div>`;
                 return;
             }
 
@@ -694,9 +720,9 @@
             filtered.forEach(entry => {
                 html += `
                     <div class="vocab-card">
-                        <div class="vocab-word">${entry.word}</div>
-                        <div class="vocab-part">${entry.part}</div>
-                        <div class="vocab-trans">${entry.translation}</div>
+                        <div class="vocab-word">${maybeRepeat(entry.word)}</div>
+                        <div class="vocab-part">${maybeRepeat(entry.part)}</div>
+                        <div class="vocab-trans">${maybeRepeat(entry.translation)}</div>
                     </div>
                 `;
             });
@@ -760,14 +786,10 @@
             const toggleBtn = document.getElementById('colorPickerToggle');
             const picker = document.getElementById('colorPicker');
             if (toggleBtn && picker) {
+                // При загрузке палитра открыта (нет класса collapsed), кнопка ❌
                 toggleBtn.addEventListener('click', () => {
                     picker.classList.toggle('collapsed');
-                    // Меняем иконку: если свёрнуто (collapsed есть) — 🎨, иначе ❌
-                    if (picker.classList.contains('collapsed')) {
-                        toggleBtn.innerText = '🎨';
-                    } else {
-                        toggleBtn.innerText = '❌';
-                    }
+                    toggleBtn.innerText = picker.classList.contains('collapsed') ? '🎨' : '❌';
                 });
             }
 
@@ -782,6 +804,14 @@
         function init() {
             const savedTheme = localStorage.getItem('vakeate-theme') || 'light';
             document.body.setAttribute('data-theme', savedTheme);
+
+            if (alzheimerMode) {
+                document.getElementById('home-title').innerText = maybeRepeat('Добро пожаловать! 👋');
+                document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь и мудрые цитаты языка Вакеатэ Мовын.');
+                document.getElementById('home-note').innerText = maybeRepeat('✨ В словарь добавлены новые выражения и цифры.');
+                document.getElementById('quote-text').innerText = maybeRepeat('«почему я жаемна»');
+                document.getElementById('quote-author').innerText = maybeRepeat('— Автор Сибилевца');
+            }
 
             renderAlphabet();
             renderFilterBar();
@@ -799,6 +829,7 @@
         window.hideHint = hideHint;
         window.cycleTheme = cycleTheme;
         window.showSection = showSection;
+        window.toggleAlzheimer = toggleAlzheimer;
 
         window.addEventListener('DOMContentLoaded', init);
     })();
