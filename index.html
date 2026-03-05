@@ -16,12 +16,14 @@
             --bg-light: #fcfaf2;
             --bg-dark: #0d0d0d;
             --bg: var(--bg-light);
+            /* RGB-компоненты текущего фона (для шапки) */
+            --bg-rgb: 252, 250, 242;
             --txt: #2d2d2d;
             --card: #ffffff;
             --gold-grad: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
             --accent: #d4af37;
             --accent-rgb: 212, 175, 55;
-            --glass: rgba(252, 250, 242, 0.9);
+            --glass: rgba(var(--bg-rgb), 0.9);
             --card-shadow: 0 10px 30px rgba(212, 175, 55, 0.12);
             --border-light: rgba(212, 175, 55, 0.15);
             --header-border: rgba(212, 175, 55, 0.2);
@@ -29,9 +31,10 @@
 
         [data-theme="dark"] {
             --bg: var(--bg-dark);
+            --bg-rgb: 13, 13, 13;
             --txt: #f5f5f5;
             --card: #1a1a1a;
-            --glass: rgba(13, 13, 13, 0.9);
+            --glass: rgba(var(--bg-rgb), 0.9);
             --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
             --border-light: rgba(212, 175, 55, 0.2);
             --header-border: rgba(212, 175, 55, 0.3);
@@ -141,7 +144,7 @@
             box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.5);
         }
 
-        /* Цветовая палитра — теперь выпадающая */
+        /* Цветовая палитра — выпадающая справа от кнопки */
         .color-picker-wrapper {
             position: relative;
             display: flex;
@@ -592,30 +595,33 @@
             const next = current === 'dark' ? 'light' : 'dark';
             body.setAttribute('data-theme', next);
             localStorage.setItem('vakeate-theme', next);
+            // При смене темы пересчитываем фон с текущим акцентом
             updateBackgroundForCurrentTheme();
         }
 
-        function updateBackgroundForCurrentTheme() {
-            const theme = document.body.getAttribute('data-theme') || 'light';
-            const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-            const bgColor = shadeColor(accentColor, theme === 'light' ? 0.95 : 0.05);
-            document.documentElement.style.setProperty('--bg', bgColor);
-        }
-
-        function shadeColor(hex, lightness) {
-            let r, g, b;
+        // Получить компоненты RGB из hex-строки
+        function hexToRgb(hex) {
             if (hex.startsWith('#')) {
                 const bigint = parseInt(hex.slice(1), 16);
-                r = (bigint >> 16) & 255;
-                g = (bigint >> 8) & 255;
-                b = bigint & 255;
-            } else {
-                return hex;
+                return {
+                    r: (bigint >> 16) & 255,
+                    g: (bigint >> 8) & 255,
+                    b: bigint & 255
+                };
             }
+            return { r: 0, g: 0, b: 0 };
+        }
+
+        // Осветлить/затемнить цвет (вернуть hex и rgb)
+        function shadeColor(hex, lightness) {
+            const { r, g, b } = hexToRgb(hex);
             let hsl = rgbToHsl(r, g, b);
-            hsl[2] = lightness;
+            hsl[2] = lightness; // новая яркость
             let rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
-            return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+            return {
+                color: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`,
+                rgb: rgb
+            };
         }
 
         function rgbToHsl(r, g, b) {
@@ -657,6 +663,15 @@
                 b = hue2rgb(p, q, h - 1/3);
             }
             return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+
+        function updateBackgroundForCurrentTheme() {
+            const theme = document.body.getAttribute('data-theme') || 'light';
+            const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+            const lightness = theme === 'light' ? 0.95 : 0.05;
+            const { color, rgb } = shadeColor(accentColor, lightness);
+            document.documentElement.style.setProperty('--bg', color);
+            document.documentElement.style.setProperty('--bg-rgb', `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`);
         }
 
         function showSection(id) {
