@@ -16,7 +16,6 @@
             --bg-light: #fcfaf2;
             --bg-dark: #0d0d0d;
             --bg: var(--bg-light);
-            /* RGB-компоненты текущего фона (для шапки) */
             --bg-rgb: 252, 250, 242;
             --txt: #2d2d2d;
             --card: #ffffff;
@@ -51,6 +50,7 @@
             flex-direction: column;
         }
 
+        /* Шапка: уменьшен отступ слева (было 6%, стало 4%) */
         header {
             position: sticky;
             top: 0;
@@ -59,7 +59,7 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--header-border);
-            padding: 12px 6%;
+            padding: 12px 4%;  /* изменено с 6% на 4% */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -434,6 +434,7 @@
             #theme-btn, #alzheimer-btn { padding: 6px 16px; }
             .card { font-size: 2rem; padding: 25px 5px; }
             .vocab-word { font-size: 1.7rem; }
+            /* на маленьких экранах палитра может быть не помещаться, оставим как есть */
         }
     </style>
 </head>
@@ -595,11 +596,9 @@
             const next = current === 'dark' ? 'light' : 'dark';
             body.setAttribute('data-theme', next);
             localStorage.setItem('vakeate-theme', next);
-            // При смене темы пересчитываем фон с текущим акцентом
             updateBackgroundForCurrentTheme();
         }
 
-        // Получить компоненты RGB из hex-строки
         function hexToRgb(hex) {
             if (hex.startsWith('#')) {
                 const bigint = parseInt(hex.slice(1), 16);
@@ -612,11 +611,10 @@
             return { r: 0, g: 0, b: 0 };
         }
 
-        // Осветлить/затемнить цвет (вернуть hex и rgb)
         function shadeColor(hex, lightness) {
             const { r, g, b } = hexToRgb(hex);
             let hsl = rgbToHsl(r, g, b);
-            hsl[2] = lightness; // новая яркость
+            hsl[2] = lightness;
             let rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
             return {
                 color: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`,
