@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- ДИЗАЙН (CSS) --- */
+        /* --- СТИЛИ (CSS) --- */
         :root {
             --bg: #fcfaf2;
             --txt: #2d2d2d;
@@ -35,40 +35,39 @@
             overflow-x: hidden;
         }
 
-        /* Шапка с эффектом Glassmorphism */
+        /* Шапка Glassmorphism */
         header {
             position: sticky; top: 0; z-index: 1000;
             background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             padding: 12px 6%;
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo-container { display: flex; align-items: center; gap: 14px; cursor: pointer; }
+        .logo-container { display: flex; align-items: center; gap: 14px; cursor: pointer; transition: 0.3s; }
+        .logo-container:hover { transform: scale(1.03); }
         .logo-img { width: 42px; height: 42px; object-fit: contain; }
         .logo-text { 
             font-weight: 800; font-size: 22px; letter-spacing: -0.5px;
             background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
         }
 
-        .nav-right { display: flex; align-items: center; gap: 25px; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
         .nav-links a { 
-            text-decoration: none; color: var(--txt); font-weight: 600; font-size: 0.95rem;
-            cursor: pointer; transition: 0.3s; opacity: 0.8;
+            text-decoration: none; color: var(--txt); font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; transition: 0.3s; padding: 5px 10px;
         }
-        .nav-links a:hover { opacity: 1; color: var(--accent); }
+        .nav-links a:hover { color: var(--accent); }
 
         #theme-btn {
             background: var(--gold-grad); border: none; color: white;
-            padding: 9px 20px; border-radius: 14px; font-weight: 700;
+            padding: 8px 18px; border-radius: 12px; font-weight: 700;
             cursor: pointer; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
             transition: 0.3s;
         }
-        #theme-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-        /* Всплывающее облачко */
+        /* Всплывающая сноска */
         #speech-bubble {
             position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
             background: var(--gold-grad); color: white; padding: 12px 30px;
@@ -79,60 +78,45 @@
         }
         @keyframes pop { from { opacity: 0; transform: translateX(-50%) scale(0.8); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
 
-        /* Контент */
         main { padding: 40px 6%; max-width: 1100px; margin: 0 auto; }
         .content-section { display: none; }
         .content-section.active { display: block; animation: fadeIn 0.6s ease both; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 { font-weight: 800; font-size: 2.8rem; margin-bottom: 15px; letter-spacing: -1px; }
-        h2 { font-weight: 800; font-size: 1.8rem; color: var(--accent); margin-bottom: 30px; }
+        h1 { font-weight: 800; font-size: 2.5rem; margin-bottom: 10px; }
 
-        /* Сетка алфавита */
-        .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
-            gap: 25px; 
-        }
+        /* Карточки букв */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 20px; }
         .card {
-            background: var(--card); border-radius: 30px; padding: 45px 20px;
-            text-align: center; font-size: 2.4rem; font-weight: 800;
+            background: var(--card); border-radius: 25px; padding: 40px 15px;
+            text-align: center; font-size: 2.2rem; font-weight: 800;
             box-shadow: var(--card-shadow); border: 1px solid rgba(212, 175, 55, 0.05);
-            cursor: help; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            user-select: none;
+            cursor: help; transition: all 0.3s ease; user-select: none;
         }
         .card:hover {
-            transform: translateY(-12px) rotate(2deg);
-            border-color: rgba(212, 175, 55, 0.4);
-            box-shadow: 0 25px 50px rgba(212, 175, 55, 0.2);
-            color: var(--accent);
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
         }
 
-        /* Список слов */
+        /* Список словаря */
         .list-item {
-            background: var(--card); padding: 25px 35px; margin-bottom: 18px;
-            border-radius: 22px; border-left: 10px solid var(--accent);
+            background: var(--card); padding: 22px 30px; margin-bottom: 15px;
+            border-radius: 20px; border-left: 8px solid var(--accent);
             box-shadow: var(--card-shadow); display: flex; justify-content: space-between;
-            align-items: center; transition: 0.3s; 
-            animation: slideRight 0.5s ease both;
+            align-items: center; animation: slideIn 0.5s ease both;
         }
-        .list-item:hover { transform: translateX(12px); background: rgba(212, 175, 55, 0.04); }
-        @keyframes slideRight { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
 
         /* Лоадер */
-        #loader { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 50vh; }
+        #loader { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 40vh; }
         .spinner {
-            width: 60px; height: 60px; border: 5px solid rgba(212, 175, 55, 0.1);
+            width: 50px; height: 50px; border: 5px solid rgba(212, 175, 55, 0.1);
             border-top: 5px solid var(--accent); border-radius: 50%;
-            animation: spin 1s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: spin 1s infinite linear;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         .hidden { display: none !important; }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; }
-            .nav-links { display: none; } /* Скрываем ссылки на мобилках для чистоты */
-        }
     </style>
 </head>
 <body>
@@ -156,16 +140,15 @@
 <main>
     <div id="loader">
         <div class="spinner"></div>
-        <p style="margin-top: 25px; font-weight: 700; letter-spacing: 2px; opacity: 0.6;">ЗАГРУЗКА...</p>
+        <p style="margin-top: 20px; font-weight: 700; opacity: 0.6;">ЗАГРУЗКА...</p>
     </div>
 
     <div id="main-content" class="hidden">
         <section id="home" class="content-section active">
             <h1>Датчэ! 👋</h1>
-            <p style="font-size: 1.25rem; line-height: 1.7; opacity: 0.8; max-width: 700px;">
-                Добро пожаловать в интерактивный учебник Вакеатэ Мовын. 
-                Мы сохранили букву **Ё** на её законном месте. <br><br>
-                Наведите на карточку буквы в разделе «Буквы», чтобы увидеть подсказку по произношению.
+            <p style="font-size: 1.2rem; opacity: 0.8; line-height: 1.6;">
+                Наведи на букву в алфавите, чтобы увидеть, как она произносится. 
+                Буква **Ё** сохранена.
             </p>
         </section>
 
@@ -182,54 +165,45 @@
 </main>
 
 <script>
-    /* --- ЛОГИКА (JavaScript) --- */
+    /* --- ЛОГИКА (JS) --- */
 
     const CONFIG = {
-        dataUrl: 'https://raw.githubusercontent.com/superyogurt118/Amyoba/refs/heads/main/data.json', // <--- ТВОЯ RAW ССЫЛКА НА JSON
+        dataUrl: '', // <--- ВСТАВЬ СВОЮ RAW ССЫЛКУ НА JSON СЮДА
         logoPath: 'logo.png'
     };
 
-    // Показать подсказку
     function showHint(text) {
         const bubble = document.getElementById('speech-bubble');
         bubble.innerText = text;
         bubble.style.display = 'block';
     }
 
-    // Скрыть подсказку
     function hideHint() {
         document.getElementById('speech-bubble').style.display = 'none';
     }
 
-    // Переключение тем
     function cycleTheme() {
         const body = document.body;
-        const current = body.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
+        const next = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', next);
         localStorage.setItem('vakeate-theme', next);
     }
 
-    // Навигация
     function showSection(id) {
         document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     async function load() {
-        // Применяем сохраненную тему
-        const savedTheme = localStorage.getItem('vakeate-theme') || 'light';
-        document.body.setAttribute('data-theme', savedTheme);
-        
-        // Ставим лого
+        // Темы и лого
+        document.body.setAttribute('data-theme', localStorage.getItem('vakeate-theme') || 'light');
         document.getElementById('main-logo').src = CONFIG.logoPath;
 
         const loader = document.getElementById('loader');
         const content = document.getElementById('main-content');
 
         if (!CONFIG.dataUrl) {
-            loader.innerHTML = "<p>Ошибка: Не указана ссылка на JSON (CONFIG.dataUrl)</p>";
+            loader.innerHTML = "<p>Нужна ссылка на JSON в переменной dataUrl</p>";
             return;
         }
 
@@ -237,38 +211,33 @@
             const response = await fetch(CONFIG.dataUrl);
             const data = await response.json();
 
-            // 1. Рендер Букв
-            // Ожидается формат в JSON: "alphabet": [{"char": "Ӵ", "pronunciation": "ч"}, ...]
+            // Рендер Алфавита
             document.getElementById('alpha-grid').innerHTML = data.alphabet.map(item => `
                 <div class="card" 
-                     onmouseenter="showHint('Произносится как: [${item.pronunciation || item.char}]')" 
+                     onmouseenter="showHint('Читается как: [${item.pronunciation || item.char}]')" 
                      onmouseleave="hideHint()"
-                     ontouchstart="showHint('Произносится как: [${item.pronunciation || item.char}]')" 
+                     ontouchstart="showHint('Читается как: [${item.pronunciation || item.char}]')" 
                      ontouchend="hideHint()">
                     ${item.char}
                 </div>
             `).join('');
 
-            // 2. Рендер Словаря
-            // Ожидается формат в JSON: "dictionary": [{"word": "Ӵыжы-выжы", "translation": "Родня"}, ...]
-            document.getElementById('vocab-list').innerHTML = data.dictionary.map((item, index) => `
-                <div class="list-item" style="animation-delay: ${index * 0.07}s">
-                    <span style="font-weight: 800; font-size: 1.3rem; letter-spacing: -0.5px;">${item.word}</span>
-                    <span style="opacity: 0.7; font-weight: 600;">${item.translation}</span>
+            // Рендер Словаря
+            document.getElementById('vocab-list').innerHTML = data.dictionary.map((item, i) => `
+                <div class="list-item" style="animation-delay: ${i * 0.05}s">
+                    <span style="font-weight: 800; font-size: 1.2rem;">${item.word}</span>
+                    <span style="opacity: 0.7;">${item.translation}</span>
                 </div>
             `).join('');
 
-            // Скрываем лоадер и показываем всё остальное
             loader.classList.add('hidden');
             content.classList.remove('hidden');
 
         } catch (error) {
-            console.error(error);
-            loader.innerHTML = "<p>Ошибка загрузки данных. Проверьте ссылку и формат JSON.</p>";
+            loader.innerHTML = "<p>Ошибка загрузки данных.</p>";
         }
     }
 
-    // Запуск при загрузке страницы
     window.onload = load;
 </script>
 
