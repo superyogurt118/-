@@ -19,7 +19,7 @@
             --card: #ffffff;
             --gold-grad: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
             --accent: #d4af37;
-            --accent-rgb: 212, 175, 55; /* для rgba */
+            --accent-rgb: 212, 175, 55;
             --glass: rgba(252, 250, 242, 0.9);
             --card-shadow: 0 10px 30px rgba(212, 175, 55, 0.12);
             --border-light: rgba(212, 175, 55, 0.15);
@@ -255,7 +255,24 @@
             box-shadow: 0 20px 40px rgba(var(--accent-rgb), 0.25);
         }
 
-        /* ---------- СЛОВАРЬ + ФИЛЬТРЫ ---------- */
+        /* ---------- СЛОВАРЬ + ПОИСК + ФИЛЬТРЫ ---------- */
+        .search-bar {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 60px;
+            border: 2px solid var(--border-light);
+            background: var(--card);
+            color: var(--txt);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            transition: 0.2s;
+        }
+        .search-bar:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.1);
+        }
+
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
@@ -400,7 +417,7 @@
 <!-- плавающее произношение -->
 <div id="speech-bubble"></div>
 
-<!-- ШАПКА с логотипом и новым пунктом "Цитаты" -->
+<!-- ШАПКА с логотипом и пунктом "Цитаты" -->
 <header>
     <div class="logo-container" onclick="showSection('home')">
         <img id="main-logo" src="logo.png" alt="Лого" class="logo-img">
@@ -410,7 +427,7 @@
         <nav class="nav-links">
             <a onclick="showSection('alphabet')">Буквы</a>
             <a onclick="showSection('vocab')">Слова</a>
-            <a onclick="showSection('quotes')">Цитаты</a>   <!-- новый пункт -->
+            <a onclick="showSection('quotes')">Цитаты</a>
         </nav>
         <!-- Выбор акцентного цвета -->
         <div class="color-picker" id="colorPicker">
@@ -440,9 +457,10 @@
         <div class="grid" id="alpha-grid"></div>
     </section>
 
-    <!-- Словарь с фильтрацией по частям речи -->
+    <!-- Словарь с поиском и фильтрацией -->
     <section id="vocab" class="content-section">
         <h2>✧ Словарь</h2>
+        <input type="text" class="search-bar" id="searchInput" placeholder="🔍 Поиск по слову или переводу...">
         <div class="filter-bar" id="filterBar"></div>
         <div id="vocab-list"></div>
     </section>
@@ -452,19 +470,19 @@
         <h2>✧ Цитаты великих людей</h2>
         <div class="quote-block">
             <div class="quote-text">«почему я жаемна»</div>
-            <div class="quote-author">— Сибилевца</div>
+            <div class="quote-author">— Автор Сибилевца</div>   <!-- исправлено -->
         </div>
     </section>
 </main>
 
-<!-- Подвал пустой (без лишней фразы) -->
+<!-- Подвал пустой -->
 <footer>
     <span></span>
 </footer>
 
 <script>
     (function() {
-        /* --- БАЗА ДАННЫХ (алфавит + слова с частями речи) --- */
+        /* --- БАЗА ДАННЫХ --- */
         const DATABASE = {
             alphabet: [
                 { char: "А", pron: "а" }, { char: "Б", pron: "б" }, { char: "В", pron: "в" },
@@ -488,8 +506,9 @@
             ]
         };
 
-        // Состояние фильтра
+        // Состояние фильтра и поиска
         let currentFilter = 'все';
+        let searchQuery = '';
 
         /* --- ФУНКЦИИ --- */
         function showHint(text) {
@@ -518,7 +537,7 @@
             if (section) section.classList.add('active');
             if (id === 'vocab') {
                 renderFilterBar();
-                renderVocab(currentFilter);
+                renderVocab();
             }
         }
 
@@ -552,29 +571,38 @@
                 return `<span class="filter-tag ${activeClass}" data-part="${part}">${part}</span>`;
             }).join('');
 
-            // Добавляем обработчики на теги
             document.querySelectorAll('.filter-tag').forEach(tag => {
                 tag.addEventListener('click', (e) => {
-                    const part = e.target.dataset.part;
-                    currentFilter = part;
-                    renderFilterBar();  // перерисовать, чтобы подсветить активный
-                    renderVocab(part);
+                    currentFilter = e.target.dataset.part;
+                    renderFilterBar();
+                    renderVocab();
                 });
             });
         }
 
-        // Рендер словаря с учётом фильтра
-        function renderVocab(filter = 'все') {
+        // Рендер словаря с учётом фильтра и поиска
+        function renderVocab() {
             const container = document.getElementById('vocab-list');
             if (!container) return;
 
             let filtered = DATABASE.dictionary;
-            if (filter !== 'все') {
-                filtered = DATABASE.dictionary.filter(entry => entry.part === filter);
+
+            // Фильтр по части речи
+            if (currentFilter !== 'все') {
+                filtered = filtered.filter(entry => entry.part === currentFilter);
+            }
+
+            // Поиск по слову или переводу (регистронезависимый)
+            if (searchQuery.trim() !== '') {
+                const q = searchQuery.toLowerCase().trim();
+                filtered = filtered.filter(entry => 
+                    entry.word.toLowerCase().includes(q) || 
+                    entry.translation.toLowerCase().includes(q)
+                );
             }
 
             if (filtered.length === 0) {
-                container.innerHTML = '<div class="empty-msg">📭 Нет слов этой части речи</div>';
+                container.innerHTML = '<div class="empty-msg">📭 Ничего не найдено</div>';
                 return;
             }
 
@@ -590,6 +618,16 @@
             });
             html += '</div>';
             container.innerHTML = html;
+        }
+
+        // Обработчик поиска
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (!searchInput) return;
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderVocab();
+            });
         }
 
         // Смена основного цвета
@@ -623,23 +661,18 @@
             }
             root.style.setProperty('--accent', accent);
             root.style.setProperty('--accent-rgb', accentRgb);
-            // Обновляем градиент (используем новый accent)
             root.style.setProperty('--gold-grad', `linear-gradient(135deg, ${accent} 0%, ${adjustBrightness(accent, -20)} 100%)`);
 
-            // Подсветить активную точку
             document.querySelectorAll('.color-dot').forEach(dot => {
                 dot.classList.toggle('active', dot.dataset.color === color);
             });
         }
 
-        // Вспомогательная функция для затемнения цвета (для градиента)
         function adjustBrightness(hex, percent) {
-            // Простая реализация: возвращаем тот же цвет, для градиента не критично
-            // В реальном проекте можно использовать библиотеку, но здесь упростим
-            return hex; // или вернуть чуть темнее, но для демо оставим так
+            // упрощённо возвращаем тот же цвет, для демо достаточно
+            return hex;
         }
 
-        // Инициализация выбора цвета
         function initColorPicker() {
             const dots = document.querySelectorAll('.color-dot');
             dots.forEach(dot => {
@@ -655,7 +688,8 @@
 
             renderAlphabet();
             renderFilterBar();
-            renderVocab(currentFilter);
+            renderVocab();
+            setupSearch();
             showSection('home');
             initColorPicker();
 
