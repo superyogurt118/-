@@ -11,18 +11,22 @@
         :root {
             --bg: #fcfaf2; --txt: #2d2d2d; --card: #ffffff;
             --gold-grad: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
-            --accent: #d4af37; --glass: rgba(252, 250, 242, 0.85);
+            --accent: #d4af37; --glass: rgba(252, 250, 242, 0.9);
             --card-shadow: 0 10px 30px rgba(212, 175, 55, 0.12);
         }
 
         [data-theme="dark"] {
-            --bg: #0d0d0d; --txt: #f5f5f5; --card: #181818;
-            --glass: rgba(13, 13, 13, 0.85); --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            --bg: #0d0d0d; --txt: #f5f5f5; --card: #1a1a1a;
+            --glass: rgba(13, 13, 13, 0.9); --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
         }
 
         * { box-sizing: border-box; outline: none; }
-        body { font-family: 'Montserrat', sans-serif; margin: 0; background: var(--bg); color: var(--txt); transition: 0.4s; overflow-x: hidden; }
+        body { 
+            font-family: 'Montserrat', sans-serif; margin: 0; background: var(--bg); 
+            color: var(--txt); transition: 0.4s; overflow-x: hidden; 
+        }
 
+        /* Шапка */
         header {
             position: sticky; top: 0; z-index: 1000; background: var(--glass);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -30,16 +34,22 @@
             padding: 12px 6%; display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo-container { display: flex; align-items: center; gap: 14px; cursor: pointer; transition: 0.3s; }
+        .logo-container { display: flex; align-items: center; gap: 14px; cursor: pointer; }
         .logo-img { width: 42px; height: 42px; object-fit: contain; }
-        .logo-text { font-weight: 800; font-size: 22px; background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text { 
+            font-weight: 800; font-size: 22px; 
+            background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
 
-        .nav-right { display: flex; align-items: center; gap: 20px; }
-        .nav-links a { text-decoration: none; color: var(--txt); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.3s; padding: 5px 10px; }
+        .nav-links a { text-decoration: none; color: var(--txt); font-weight: 700; font-size: 0.9rem; cursor: pointer; margin-left: 15px; transition: 0.3s; }
         .nav-links a:hover { color: var(--accent); }
 
-        #theme-btn { background: var(--gold-grad); border: none; color: white; padding: 8px 18px; border-radius: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        #theme-btn { 
+            background: var(--gold-grad); border: none; color: white; padding: 8px 18px; 
+            border-radius: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); 
+        }
 
+        /* Облачко произношения */
         #speech-bubble {
             position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
             background: var(--gold-grad); color: white; padding: 12px 30px;
@@ -54,27 +64,23 @@
         .content-section.active { display: block; animation: fadeIn 0.6s ease both; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 { font-weight: 800; font-size: 2.5rem; margin-bottom: 10px; }
-        h2 { font-weight: 800; color: var(--accent); margin-bottom: 20px; }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 20px; }
+        /* Карточки Алфавита */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 20px; }
         .card {
             background: var(--card); border-radius: 25px; padding: 40px 15px;
             text-align: center; font-size: 2.2rem; font-weight: 800;
             box-shadow: var(--card-shadow); border: 1px solid rgba(212, 175, 55, 0.05);
-            cursor: help; transition: 0.3s; user-select: none;
+            cursor: help; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            user-select: none;
         }
-        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2); }
+        .card:hover { transform: translateY(-10px) rotate(2deg); border-color: var(--accent); box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2); }
 
-        .list-item {
-            background: var(--card); padding: 22px 30px; margin-bottom: 15px;
-            border-radius: 20px; border-left: 8px solid var(--accent);
-            box-shadow: var(--card-shadow); display: flex; justify-content: space-between;
-            animation: slideIn 0.5s ease both;
+        /* Состояние "Пусто" в словаре */
+        .empty-msg { 
+            text-align: center; padding: 60px; font-size: 1.2rem; 
+            opacity: 0.5; font-style: italic; font-weight: 600;
+            border: 2px dashed rgba(212, 175, 55, 0.2); border-radius: 30px;
         }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-        
-        .empty-msg { font-style: italic; opacity: 0.6; font-size: 1.1rem; text-align: center; padding: 40px; }
     </style>
 </head>
 <body>
@@ -91,34 +97,34 @@
             <a onclick="showSection('alphabet')">Буквы</a>
             <a onclick="showSection('vocab')">Слова</a>
         </nav>
-        <button id="theme-btn" onclick="cycleTheme()">Тема</button>
+        <button id="theme-btn" onclick="cycleTheme()" style="margin-left: 20px;">Тема</button>
     </div>
 </header>
 
 <main>
-    <div id="main-content">
-        <section id="home" class="content-section active">
-            <h1>Датчэ! 👋</h1>
-            <p style="font-size: 1.2rem; opacity: 0.8;">
-                Наведи на букву, чтобы увидеть её произношение. Буква **Ё** сохранена.
-            </p>
-        </section>
+    <section id="home" class="content-section active">
+        <h1 style="font-weight: 800; font-size: 3rem;">Датчэ! 👋</h1>
+        <p style="font-size: 1.2rem; opacity: 0.8; line-height: 1.6; max-width: 600px;">
+            Наведи на букву в алфавите, чтобы увидеть, как она произносится. <br>
+            Буква **Ё** сохранена в её первозданном виде.
+        </p>
+    </section>
 
-        <section id="alphabet" class="content-section">
-            <h2>Алфавит</h2>
-            <div class="grid" id="alpha-grid"></div>
-        </section>
+    <section id="alphabet" class="content-section">
+        <h2 style="font-weight: 800; color: var(--accent);">Алфавит</h2>
+        <div class="grid" id="alpha-grid"></div>
+    </section>
 
-        <section id="vocab" class="content-section">
-            <h2>Словарь</h2>
-            <div id="vocab-list"></div>
-        </section>
-    </div>
+    <section id="vocab" class="content-section">
+        <h2 style="font-weight: 800; color: var(--accent);">Словарь</h2>
+        <div id="vocab-list">
+            <div class="empty-msg">Слов пока нет</div>
+        </div>
+    </section>
 </main>
 
 <script>
-    /* --- ДАННЫЕ И ЛОГИКА --- */
-
+    /* --- ДАННЫЕ ВСТРОЕНЫ СЮДА --- */
     const DATABASE = {
         alphabet: [
             { char: "А", pron: "а" }, { char: "Б", pron: "б" }, { char: "В", pron: "в" },
@@ -135,7 +141,7 @@
             { char: "Ы", pron: "ы" }, { char: "Ь", pron: "мягкий" }, { char: "Ѣ", pron: "ых" },
             { char: "Э", pron: "э" }, { char: "Ю", pron: "ю" }, { char: "Я", pron: "я" }
         ],
-        dictionary: [] // Тут пусто
+        dictionary: [] // Пустой словарь
     };
 
     function showHint(text) {
@@ -150,7 +156,8 @@
 
     function cycleTheme() {
         const body = document.body;
-        const next = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        const current = body.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', next);
         localStorage.setItem('vakeate-theme', next);
     }
@@ -158,36 +165,26 @@
     function showSection(id) {
         document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Инициализация страницы
     function init() {
+        // Загрузка темы
         document.body.setAttribute('data-theme', localStorage.getItem('vakeate-theme') || 'light');
 
-        // Рендер Алфавита
-        document.getElementById('alpha-grid').innerHTML = DATABASE.alphabet.map(item => `
+        // Отрисовка Алфавита
+        const grid = document.getElementById('alpha-grid');
+        grid.innerHTML = DATABASE.alphabet.map(item => `
             <div class="card" 
                  onmouseenter="showHint('${item.pron}')" onmouseleave="hideHint()"
                  ontouchstart="showHint('${item.pron}')" ontouchend="hideHint()">
                 ${item.char}
             </div>
         `).join('');
-
-        // Рендер Словаря
-        const vList = document.getElementById('vocab-list');
-        if (DATABASE.dictionary.length === 0) {
-            vList.innerHTML = `<div class="empty-msg">Слов пока нет</div>`;
-        } else {
-            vList.innerHTML = DATABASE.dictionary.map((item, i) => `
-                <div class="list-item" style="animation-delay: ${i * 0.05}s">
-                    <span style="font-weight: 800; font-size: 1.2rem;">${item.word}</span>
-                    <span style="opacity: 0.7;">${item.translation}</span>
-                </div>
-            `).join('');
-        }
     }
 
     window.onload = init;
 </script>
+
 </body>
 </html>
