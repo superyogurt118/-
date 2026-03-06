@@ -132,7 +132,7 @@
             justify-content: flex-end;
         }
 
-        #theme-btn, #alzheimer-btn, #translator-btn {
+        #theme-btn, #alzheimer-btn {
             background: var(--gold-grad);
             border: none;
             color: white;
@@ -145,12 +145,12 @@
             transition: 0.2s;
             border: 1px solid rgba(255,255,255,0.2);
         }
-        #theme-btn:hover, #alzheimer-btn:hover, #translator-btn:hover {
+        #theme-btn:hover, #alzheimer-btn:hover {
             transform: scale(1.02);
             box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.5);
         }
 
-        /* Цветовая палитра — часть потока (не абсолютная) */
+        /* Цветовая палитра — статичная */
         .color-picker-wrapper {
             display: flex;
             align-items: center;
@@ -203,7 +203,6 @@
             box-shadow: 0 0 0 2px var(--accent);
         }
 
-        /* Мобильная адаптация: уменьшаем точки и кнопки, чтобы помещались */
         @media (max-width: 550px) {
             .color-dot {
                 width: 20px;
@@ -217,7 +216,7 @@
                 padding: 4px 10px;
                 font-size: 1rem;
             }
-            #theme-btn, #alzheimer-btn, #translator-btn {
+            #theme-btn, #alzheimer-btn {
                 padding: 4px 12px;
                 font-size: 0.8rem;
             }
@@ -260,7 +259,7 @@
 
         main {
             padding: 40px 6%;
-            max-width: 1200px;
+            max-width: 1400px; /* увеличен максимальный размер */
             margin: 0 auto;
             width: 100%;
             flex: 1;
@@ -405,70 +404,85 @@
             font-style: italic;
         }
 
+        /* Переводчик — увеличенный размер */
         .translator-container {
             background: var(--card);
             border-radius: 40px;
-            padding: 30px;
+            padding: 40px;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--border-light);
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         .translator-row {
             display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 20px;
+            gap: 20px;
+            align-items: stretch; /* поля одинаковой высоты */
+            margin-bottom: 30px;
             flex-wrap: wrap;
         }
         .translator-textarea {
-            flex: 1;
-            min-width: 200px;
+            flex: 1 1 300px;
+            display: flex;
+            flex-direction: column;
         }
         .translator-textarea textarea {
             width: 100%;
-            padding: 15px;
-            border-radius: 25px;
+            padding: 20px;
+            border-radius: 30px;
             border: 2px solid var(--border-light);
             background: var(--bg);
             color: var(--txt);
             font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
+            font-size: 1.2rem;
             resize: vertical;
+            min-height: 200px;
+            transition: 0.2s;
         }
         .translator-textarea textarea:focus {
             border-color: var(--accent);
             outline: none;
+            box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.1);
         }
         .swap-btn {
             background: var(--gold-grad);
             border: none;
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(var(--accent-rgb), 0.3);
+            align-self: center;
+            flex-shrink: 0;
         }
-        .translate-btn {
+        .direction-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .direction-btn {
             background: var(--gold-grad);
             border: none;
             color: white;
-            padding: 12px 30px;
-            border-radius: 40px;
+            padding: 15px 40px;
+            border-radius: 60px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
-            width: fit-content;
-            margin: 0 auto 20px;
+            box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.35);
+            transition: 0.2s;
         }
-        .translation-result {
-            background: var(--bg);
-            border-radius: 25px;
-            padding: 20px;
-            border: 2px solid var(--border-light);
-            min-height: 100px;
+        .direction-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.5);
+        }
+        .direction-btn.active {
+            background: var(--gold-grad);
+            opacity: 0.9;
+            box-shadow: 0 0 0 3px var(--accent);
         }
 
         .filter-bar {
@@ -615,6 +629,16 @@
             }
             .swap-btn {
                 transform: rotate(90deg);
+                align-self: center;
+            }
+            .direction-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .direction-btn {
+                width: 100%;
+                padding: 12px;
             }
         }
     </style>
@@ -703,12 +727,9 @@
                     <textarea id="tgtText" placeholder="Перевод..." readonly></textarea>
                 </div>
             </div>
-            <div style="display: flex; justify-content: center; gap: 15px;">
-                <button class="translate-btn" id="translateToRus">→ русский</button>
-                <button class="translate-btn" id="translateToLang">→ Вакеатэ</button>
-            </div>
-            <div class="translation-result" id="translationResult">
-                <p>Результат появится здесь</p>
+            <div class="direction-buttons">
+                <button class="direction-btn" id="toRusBtn" data-dir="toRus">→ русский</button>
+                <button class="direction-btn" id="toLangBtn" data-dir="toLang">→ Вакеатэ</button>
             </div>
         </div>
     </section>
@@ -757,6 +778,7 @@
         let alzheimerMode = false;
         let alphabetView = 'grid';
         let vocabView = 'grid';
+        let currentDirection = 'toRus'; // по умолчанию с языка на русский
 
         try {
             const savedAlz = localStorage.getItem('vakeate-alzheimer');
@@ -891,6 +913,9 @@
                 renderVocab();
             } else if (id === 'alphabet') {
                 renderAlphabet();
+            } else if (id === 'translator') {
+                // при открытии переводчика обновляем направление кнопок
+                updateDirectionButtons();
             }
         }
 
@@ -1030,49 +1055,73 @@
             });
         }
 
+        // Переводчик
+        function translateText(text, direction) {
+            if (!text.trim()) return '';
+            const words = text.trim().split(/\s+/);
+            const translatedWords = words.map(w => {
+                const clean = w.replace(/[.,!?;:()\[\]{}<>]/g, '');
+                if (direction === 'toRus') {
+                    const entry = DATABASE.dictionary.find(e => e.word.toLowerCase() === clean.toLowerCase());
+                    return entry ? entry.translation : w;
+                } else {
+                    const entry = DATABASE.dictionary.find(e => e.translation.toLowerCase().includes(clean.toLowerCase()));
+                    return entry ? entry.word : w;
+                }
+            });
+            return translatedWords.join(' ');
+        }
+
+        function updateTranslation() {
+            const src = document.getElementById('srcText').value;
+            const tgt = document.getElementById('tgtText');
+            tgt.value = translateText(src, currentDirection);
+        }
+
+        function setDirection(dir) {
+            currentDirection = dir;
+            updateDirectionButtons();
+            updateTranslation();
+        }
+
+        function updateDirectionButtons() {
+            const toRusBtn = document.getElementById('toRusBtn');
+            const toLangBtn = document.getElementById('toLangBtn');
+            if (currentDirection === 'toRus') {
+                toRusBtn.classList.add('active');
+                toLangBtn.classList.remove('active');
+            } else {
+                toRusBtn.classList.remove('active');
+                toLangBtn.classList.add('active');
+            }
+        }
+
         function initTranslator() {
             const srcText = document.getElementById('srcText');
             const tgtText = document.getElementById('tgtText');
-            const resultDiv = document.getElementById('translationResult');
             const swapBtn = document.getElementById('swapLang');
-            const toRusBtn = document.getElementById('translateToRus');
-            const toLangBtn = document.getElementById('translateToLang');
+            const toRusBtn = document.getElementById('toRusBtn');
+            const toLangBtn = document.getElementById('toLangBtn');
 
-            function translate(text, direction) {
-                if (!text.trim()) return '';
-                const words = text.trim().split(/\s+/);
-                const translatedWords = words.map(w => {
-                    const clean = w.replace(/[.,!?;:()\[\]{}<>]/g, '');
-                    if (direction === 'toRus') {
-                        const entry = DATABASE.dictionary.find(e => e.word.toLowerCase() === clean.toLowerCase());
-                        return entry ? entry.translation : w;
-                    } else {
-                        const entry = DATABASE.dictionary.find(e => e.translation.toLowerCase().includes(clean.toLowerCase()));
-                        return entry ? entry.word : w;
-                    }
-                });
-                return translatedWords.join(' ');
-            }
+            // Автоматический перевод при вводе
+            srcText.addEventListener('input', updateTranslation);
 
-            toRusBtn.addEventListener('click', () => {
-                const src = srcText.value;
-                const translated = translate(src, 'toRus');
-                tgtText.value = translated;
-                resultDiv.innerHTML = `<p>${maybeRepeat('Перевод выполнен')}</p>`;
-            });
+            // Смена направления
+            toRusBtn.addEventListener('click', () => setDirection('toRus'));
+            toLangBtn.addEventListener('click', () => setDirection('toLang'));
 
-            toLangBtn.addEventListener('click', () => {
-                const src = srcText.value;
-                const translated = translate(src, 'toLang');
-                tgtText.value = translated;
-                resultDiv.innerHTML = `<p>${maybeRepeat('Перевод выполнен')}</p>`;
-            });
-
+            // Обмен языков
             swapBtn.addEventListener('click', () => {
-                const tmp = srcText.value;
-                srcText.value = tgtText.value;
-                tgtText.value = tmp;
+                const src = srcText.value;
+                const tgt = tgtText.value;
+                srcText.value = tgt;
+                tgtText.value = src;
+                // направление не меняем, текст уже поменялся
+                updateTranslation(); // пересчитаем на всякий случай
             });
+
+            // Начальное состояние
+            setDirection('toRus');
         }
 
         function setAccentColor(color) {
@@ -1100,7 +1149,6 @@
             const toggleBtn = document.getElementById('colorPickerToggle');
             const picker = document.getElementById('colorPicker');
 
-            // Палитра открыта по умолчанию (❌)
             picker.classList.remove('collapsed');
             toggleBtn.innerText = '❌';
 
