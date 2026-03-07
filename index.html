@@ -50,6 +50,7 @@
             flex-direction: column;
         }
 
+        /* Шапка с двумя строками */
         header {
             position: sticky;
             top: 0;
@@ -58,7 +59,13 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--header-border);
-            padding: 12px 4%;
+            padding: 12px 4% 8px; /* уменьшен нижний отступ, так как будет вторая строка */
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .top-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -69,7 +76,7 @@
         .left-group {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 20px; /* увеличен отступ между логотипом и вкладками */
             flex-wrap: wrap;
         }
 
@@ -101,15 +108,15 @@
 
         .nav-links {
             display: flex;
-            gap: 2px;
+            gap: 4px; /* увеличен зазор */
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--txt);
             font-weight: 700;
-            font-size: 0.9rem;
-            padding: 5px 8px;
+            font-size: 0.95rem; /* чуть крупнее */
+            padding: 8px 12px; /* увеличено */
             border-radius: 30px;
             background: transparent;
             transition: 0.2s;
@@ -150,12 +157,7 @@
             box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.5);
         }
 
-        /* Цветовая палитра — статичная */
-        .color-picker-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
+        /* Кнопка-триггер палитры (в верхней строке) */
         .color-picker-toggle {
             background: var(--card);
             border: 1px solid var(--border-light);
@@ -171,23 +173,32 @@
             border-color: var(--accent);
             transform: scale(1.02);
         }
+
+        /* Нижняя строка с цветными точками */
+        .bottom-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .bottom-row.collapsed {
+            display: none;
+        }
+
         .color-picker {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             align-items: center;
             background: var(--card);
             border-radius: 40px;
-            padding: 5px 10px;
+            padding: 6px 14px;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--border-light);
-            transition: 0.2s;
         }
-        .color-picker.collapsed {
-            display: none;
-        }
+
         .color-dot {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: 2px solid transparent;
             cursor: pointer;
@@ -203,26 +214,27 @@
             box-shadow: 0 0 0 2px var(--accent);
         }
 
+        /* Адаптация для мобильных */
         @media (max-width: 550px) {
             .color-dot {
-                width: 20px;
-                height: 20px;
+                width: 24px;
+                height: 24px;
             }
             .color-picker {
-                padding: 4px 8px;
-                gap: 4px;
+                padding: 5px 10px;
+                gap: 6px;
             }
             .color-picker-toggle {
-                padding: 4px 10px;
+                padding: 5px 12px;
                 font-size: 1rem;
             }
             #theme-btn, #alzheimer-btn {
-                padding: 4px 12px;
+                padding: 5px 12px;
                 font-size: 0.8rem;
             }
             .nav-links a {
-                padding: 4px 6px;
-                font-size: 0.8rem;
+                padding: 6px 8px;
+                font-size: 0.85rem;
             }
             .logo-text {
                 font-size: 1.1rem;
@@ -404,7 +416,6 @@
             font-style: italic;
         }
 
-        /* Правила */
         .rules-container {
             background: var(--card);
             border-radius: 40px;
@@ -437,7 +448,6 @@
             border-left: 4px solid var(--accent);
         }
 
-        /* Переводчик */
         .translator-container {
             background: var(--card);
             border-radius: 40px;
@@ -681,34 +691,38 @@
 <div id="speech-bubble"></div>
 
 <header>
-    <div class="left-group">
-        <div class="logo-container" onclick="showSection('home')">
-            <img id="main-logo" src="logo.png" alt="Лого" class="logo-img">
-            <div class="logo-text">Вакеатэ Мовын</div>
+    <!-- Верхняя строка: логотип, вкладки, кнопки и триггер палитры -->
+    <div class="top-row">
+        <div class="left-group">
+            <div class="logo-container" onclick="showSection('home')">
+                <img id="main-logo" src="logo.png" alt="Лого" class="logo-img">
+                <div class="logo-text">Вакеатэ Мовын</div>
+            </div>
+            <nav class="nav-links">
+                <a onclick="showSection('alphabet')">Буквы</a>
+                <a onclick="showSection('vocab')">Слова</a>
+                <a onclick="showSection('rules')">Правила</a>
+                <a onclick="showSection('quotes')">Цитаты</a>
+                <a onclick="showSection('translator')">Переводчик</a>
+            </nav>
         </div>
-        <nav class="nav-links">
-            <a onclick="showSection('alphabet')">Буквы</a>
-            <a onclick="showSection('vocab')">Слова</a>
-            <a onclick="showSection('rules')">Правила</a>
-            <a onclick="showSection('quotes')">Цитаты</a>
-            <a onclick="showSection('translator')">Переводчик</a>
-        </nav>
+
+        <div class="right-group">
+            <span class="color-picker-toggle" id="colorPickerToggle" title="Выбрать цвет">❌</span>
+            <button id="alzheimer-btn" onclick="toggleAlzheimer()">🧠 Альцгеймер</button>
+            <button id="theme-btn" onclick="cycleTheme()">🌓 Тема</button>
+        </div>
     </div>
 
-    <div class="right-group">
-        <div class="color-picker-wrapper">
-            <span class="color-picker-toggle" id="colorPickerToggle" title="Выбрать цвет">❌</span>
-            <div class="color-picker" id="colorPicker">
-                <div class="color-dot active" style="background: #d4af37;" data-color="gold" title="Золотой"></div>
-                <div class="color-dot" style="background: #3b82f6;" data-color="blue" title="Синий"></div>
-                <div class="color-dot" style="background: #22c55e;" data-color="green" title="Зелёный"></div>
-                <div class="color-dot" style="background: #ef4444;" data-color="red" title="Красный"></div>
-                <div class="color-dot" style="background: #a855f7;" data-color="purple" title="Фиолетовый"></div>
-            </div>
+    <!-- Нижняя строка: цветные точки (изначально открыта) -->
+    <div class="bottom-row" id="colorPickerRow">
+        <div class="color-picker">
+            <div class="color-dot active" style="background: #d4af37;" data-color="gold" title="Золотой"></div>
+            <div class="color-dot" style="background: #3b82f6;" data-color="blue" title="Синий"></div>
+            <div class="color-dot" style="background: #22c55e;" data-color="green" title="Зелёный"></div>
+            <div class="color-dot" style="background: #ef4444;" data-color="red" title="Красный"></div>
+            <div class="color-dot" style="background: #a855f7;" data-color="purple" title="Фиолетовый"></div>
         </div>
-
-        <button id="alzheimer-btn" onclick="toggleAlzheimer()">🧠 Альцгеймер</button>
-        <button id="theme-btn" onclick="cycleTheme()">🌓 Тема</button>
     </div>
 </header>
 
@@ -754,7 +768,6 @@
                     В словаре: если есть глагол, можно образовать существительное по этому правилу.
                 </div>
             </div>
-            <!-- Можно добавить другие правила позже -->
         </div>
     </section>
 
@@ -807,7 +820,6 @@
                 { char: "Э", pron: "э" }, { char: "Ю", pron: "ю" }, { char: "Я", pron: "я" }
             ],
             dictionary: [
-                // Ранее добавленные
                 { word: "Жаёмна", translation: "потеряться в магазине ночью", part: "глагол" },
                 { word: "Жаемна", translation: "автор Сибилевца", part: "существительное" },
                 { word: "Акоп", translation: "привет", part: "междометие" },
@@ -822,14 +834,12 @@
                 { word: "Жэлда", translation: "восемь (8)", part: "числительное" },
                 { word: "Гонӟ", translation: "девять (9)", part: "числительное" },
                 { word: "Ӥнг", translation: "ноль (0)", part: "числительное" },
-                // Новые слова
                 { word: "деградант", translation: "привет (деградант)", part: "существительное" },
                 { word: "ожирение", translation: "рожать", part: "глагол" },
                 { word: "Пӥдрэлх", translation: "Тимофей", part: "существительное" },
                 { word: "вэйтингый", translation: "очередь", part: "существительное" },
                 { word: "блебирд", translation: "твой раб", part: "существительное" },
                 { word: "Витубыршы", translation: "вонючие туссы", part: "прилагательное" },
-                // Местоимения
                 { word: "Ты", translation: "я", part: "местоимение" },
                 { word: "Я", translation: "ты", part: "местоимение" },
                 { word: "Ыв", translation: "вы", part: "местоимение" },
@@ -1211,14 +1221,15 @@
 
         function initColorPicker() {
             const toggleBtn = document.getElementById('colorPickerToggle');
-            const picker = document.getElementById('colorPicker');
+            const bottomRow = document.getElementById('colorPickerRow');
 
-            picker.classList.remove('collapsed');
+            // По умолчанию палитра открыта (нижняя строка видна, кнопка ❌)
+            bottomRow.classList.remove('collapsed');
             toggleBtn.innerText = '❌';
 
             toggleBtn.addEventListener('click', () => {
-                picker.classList.toggle('collapsed');
-                toggleBtn.innerText = picker.classList.contains('collapsed') ? '🎨' : '❌';
+                bottomRow.classList.toggle('collapsed');
+                toggleBtn.innerText = bottomRow.classList.contains('collapsed') ? '🎨' : '❌';
             });
 
             const dots = document.querySelectorAll('.color-dot');
