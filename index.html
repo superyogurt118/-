@@ -50,7 +50,6 @@
             flex-direction: column;
         }
 
-        /* Шапка с одной строкой */
         header {
             position: sticky;
             top: 0;
@@ -133,7 +132,6 @@
             justify-content: flex-end;
         }
 
-        /* Кнопка-триггер палитры */
         .color-picker-toggle {
             background: var(--card);
             border: 1px solid var(--border-light);
@@ -150,7 +148,6 @@
             transform: scale(1.02);
         }
 
-        /* Контейнер с цветными точками (в потоке) */
         .color-picker {
             display: flex;
             gap: 8px;
@@ -202,7 +199,6 @@
             box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.5);
         }
 
-        /* Адаптация для мобильных */
         @media (max-width: 550px) {
             .color-dot {
                 width: 24px;
@@ -403,37 +399,20 @@
             opacity: 0.85;
             font-style: italic;
         }
-
-        .rules-container {
-            background: var(--card);
-            border-radius: 40px;
-            padding: 40px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-light);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .rule-item {
-            margin-bottom: 30px;
-        }
-        .rule-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-        .rule-description {
+        .switch-form-btn {
+            background: var(--gold-grad);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             font-size: 1.2rem;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-        .rule-example {
-            background: var(--bg);
-            border-radius: 20px;
-            padding: 15px;
-            margin-top: 10px;
-            font-style: italic;
-            border-left: 4px solid var(--accent);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.3);
         }
 
         .translator-container {
@@ -578,6 +557,7 @@
             transition: 0.2s;
             border: 1px solid var(--border-light);
             backdrop-filter: blur(4px);
+            position: relative;
         }
 
         .vocab-card:hover {
@@ -591,6 +571,9 @@
             color: var(--accent);
             margin-bottom: 8px;
             line-height: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .vocab-part {
@@ -687,7 +670,6 @@
         <nav class="nav-links">
             <a onclick="showSection('alphabet')">Буквы</a>
             <a onclick="showSection('vocab')">Слова</a>
-            <a onclick="showSection('rules')">Правила</a>
             <a onclick="showSection('quotes')">Цитаты</a>
             <a onclick="showSection('translator')">Переводчик</a>
         </nav>
@@ -711,7 +693,7 @@
     <section id="home" class="content-section active">
         <h1 id="home-title" style="font-weight: 800; font-size: clamp(2rem, 8vw, 3.5rem);">Добро пожаловать! 👋</h1>
         <p id="home-desc" style="font-size: 1.3rem; opacity: 0.8; line-height: 1.6; max-width: 700px;">
-            Здесь вы найдёте алфавит, словарь, правила, переводчик и мудрые цитаты языка Вакеатэ Мовын.
+            Здесь вы найдёте алфавит, словарь, переводчик и мудрые цитаты языка Вакеатэ Мовын.
         </p>
         <p id="home-note" style="margin-top: 30px; font-size: 1.1rem;">✨ В словарь добавлены новые выражения, местоимения и числительные.</p>
     </section>
@@ -734,22 +716,6 @@
         <input type="text" class="search-bar" id="searchInput" placeholder="🔍 Поиск по слову или переводу...">
         <div class="filter-bar" id="filterBar"></div>
         <div id="vocab-container"></div>
-    </section>
-
-    <section id="rules" class="content-section">
-        <h2>✧ Правила языка</h2>
-        <div class="rules-container">
-            <div class="rule-item">
-                <div class="rule-title">Суффикс -хэ</div>
-                <div class="rule-description">
-                    Суффикс <strong>-хэ</strong> превращает глагол в существительное. При добавлении суффикса, если основа глагола начинается с гласной, эта гласная убирается, а суффикс ставится вместо окончания.
-                </div>
-                <div class="rule-example">
-                    <strong>Пример:</strong> глагол <em>акать</em> (не из словаря) → <em>кхэ</em> (существительное). 
-                    В словаре: если есть глагол, можно образовать существительное по этому правилу.
-                </div>
-            </div>
-        </div>
     </section>
 
     <section id="quotes" class="content-section">
@@ -816,7 +782,8 @@
                 { word: "Гонӟ", translation: "девять (9)", part: "числительное" },
                 { word: "Ӥнг", translation: "ноль (0)", part: "числительное" },
                 { word: "деградант", translation: "привет (деградант)", part: "существительное" },
-                { word: "ожирение", translation: "рожать", part: "глагол" },
+                // Ожирение с альтернативной формой
+                { word: "ожирение", translation: "рожать", part: "глагол", alternate: { word: "ажирение", translation: "рождение", part: "существительное" } },
                 { word: "Пӥдрэлх", translation: "Тимофей", part: "существительное" },
                 { word: "вэйтингый", translation: "очередь", part: "существительное" },
                 { word: "блебирд", translation: "твой раб", part: "существительное" },
@@ -839,6 +806,8 @@
         let alphabetView = 'grid';
         let vocabView = 'grid';
         let currentDirection = 'toRus';
+        // Храним состояние переключённых форм для слов, у которых есть alternate
+        const alternateActive = new Map(); // ключ - слово (основное), значение - boolean
 
         try {
             const savedAlz = localStorage.getItem('vakeate-alzheimer');
@@ -863,7 +832,7 @@
             saveAlzheimer();
 
             document.getElementById('home-title').innerText = maybeRepeat('Добро пожаловать! 👋');
-            document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь, правила, переводчик и мудрые цитаты языка Вакеатэ Мовын.');
+            document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь, переводчик и мудрые цитаты языка Вакеатэ Мовын.');
             document.getElementById('home-note').innerText = maybeRepeat('✨ В словарь добавлены новые выражения, местоимения и числительные.');
             document.getElementById('quote-text').innerText = maybeRepeat('«почему я жаемна»');
             document.getElementById('quote-author').innerText = maybeRepeat('— Автор Сибилевца');
@@ -1017,6 +986,24 @@
             });
         }
 
+        // Функция для получения данных слова с учётом альтернативной формы
+        function getEffectiveEntry(entry) {
+            if (entry.alternate && alternateActive.get(entry.word)) {
+                return {
+                    word: entry.alternate.word,
+                    translation: entry.alternate.translation,
+                    part: entry.alternate.part,
+                    original: entry // сохраняем ссылку на оригинал для переключения
+                };
+            }
+            return {
+                word: entry.word,
+                translation: entry.translation,
+                part: entry.part,
+                original: entry
+            };
+        }
+
         function renderVocab() {
             const container = document.getElementById('vocab-container');
             if (!container) return;
@@ -1024,15 +1011,18 @@
             let filtered = DATABASE.dictionary;
 
             if (currentFilter !== 'все') {
-                filtered = filtered.filter(entry => entry.part === currentFilter);
+                filtered = filtered.filter(entry => {
+                    const eff = getEffectiveEntry(entry);
+                    return eff.part === currentFilter;
+                });
             }
 
             if (searchQuery.trim() !== '') {
                 const q = searchQuery.toLowerCase().trim();
-                filtered = filtered.filter(entry => 
-                    entry.word.toLowerCase().includes(q) || 
-                    entry.translation.toLowerCase().includes(q)
-                );
+                filtered = filtered.filter(entry => {
+                    const eff = getEffectiveEntry(entry);
+                    return eff.word.toLowerCase().includes(q) || eff.translation.toLowerCase().includes(q);
+                });
             }
 
             if (filtered.length === 0) {
@@ -1043,30 +1033,61 @@
             if (vocabView === 'grid') {
                 let html = '<div class="vocab-grid">';
                 filtered.forEach(entry => {
+                    const eff = getEffectiveEntry(entry);
+                    const switchBtn = entry.alternate ? `<button class="switch-form-btn" data-word="${entry.word}" title="Переключить форму">↻</button>` : '';
                     html += `
                         <div class="vocab-card">
-                            <div class="vocab-word">${maybeRepeat(entry.word)}</div>
-                            <div class="vocab-part">${maybeRepeat(entry.part)}</div>
-                            <div class="vocab-trans">${maybeRepeat(entry.translation)}</div>
+                            <div class="vocab-word">
+                                ${maybeRepeat(capitalizeFirst(eff.word))}
+                                ${switchBtn}
+                            </div>
+                            <div class="vocab-part">${maybeRepeat(eff.part)}</div>
+                            <div class="vocab-trans">${maybeRepeat(eff.translation)}</div>
                         </div>
                     `;
                 });
                 html += '</div>';
                 container.innerHTML = html;
+                // Добавляем обработчики на кнопки переключения
+                document.querySelectorAll('.switch-form-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const word = btn.dataset.word;
+                        const current = alternateActive.get(word) || false;
+                        alternateActive.set(word, !current);
+                        renderVocab(); // перерисовываем словарь
+                    });
+                });
             } else {
                 let html = '<div class="vocab-list-view">';
                 filtered.forEach(entry => {
+                    const eff = getEffectiveEntry(entry);
+                    const switchBtn = entry.alternate ? `<button class="switch-form-btn" data-word="${entry.word}" title="Переключить форму">↻</button>` : '';
                     html += `
                         <div class="vocab-list-item">
-                            <span class="word">${maybeRepeat(entry.word)}</span>
-                            <span class="part">${maybeRepeat(entry.part)}</span>
-                            <span class="trans">${maybeRepeat(entry.translation)}</span>
+                            <span class="word">${maybeRepeat(capitalizeFirst(eff.word))} ${switchBtn}</span>
+                            <span class="part">${maybeRepeat(eff.part)}</span>
+                            <span class="trans">${maybeRepeat(eff.translation)}</span>
                         </div>
                     `;
                 });
                 html += '</div>';
                 container.innerHTML = html;
+                document.querySelectorAll('.switch-form-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const word = btn.dataset.word;
+                        const current = alternateActive.get(word) || false;
+                        alternateActive.set(word, !current);
+                        renderVocab();
+                    });
+                });
             }
+        }
+
+        function capitalizeFirst(str) {
+            if (!str) return str;
+            return str.charAt(0).toUpperCase() + str.slice(1);
         }
 
         function setupSearch() {
@@ -1121,11 +1142,20 @@
             const translatedWords = words.map(w => {
                 const clean = w.replace(/[.,!?;:()\[\]{}<>]/g, '');
                 if (direction === 'toRus') {
-                    const entry = DATABASE.dictionary.find(e => e.word.toLowerCase() === clean.toLowerCase());
-                    return entry ? entry.translation : w;
+                    // Ищем среди всех слов (включая альтернативные формы)
+                    let entry = DATABASE.dictionary.find(e => e.word.toLowerCase() === clean.toLowerCase());
+                    if (entry) {
+                        const eff = getEffectiveEntry(entry);
+                        return eff.translation;
+                    }
+                    return w;
                 } else {
-                    const entry = DATABASE.dictionary.find(e => e.translation.toLowerCase().includes(clean.toLowerCase()));
-                    return entry ? entry.word : w;
+                    let entry = DATABASE.dictionary.find(e => e.translation.toLowerCase().includes(clean.toLowerCase()));
+                    if (entry) {
+                        const eff = getEffectiveEntry(entry);
+                        return eff.word;
+                    }
+                    return w;
                 }
             });
             return translatedWords.join(' ');
@@ -1204,7 +1234,6 @@
             const toggleBtn = document.getElementById('colorPickerToggle');
             const picker = document.getElementById('colorPicker');
 
-            // По умолчанию палитра открыта
             picker.classList.remove('collapsed');
             toggleBtn.innerText = '❌';
 
@@ -1227,7 +1256,7 @@
 
             if (alzheimerMode) {
                 document.getElementById('home-title').innerText = maybeRepeat('Добро пожаловать! 👋');
-                document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь, правила, переводчик и мудрые цитаты языка Вакеатэ Мовын.');
+                document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь, переводчик и мудрые цитаты языка Вакеатэ Мовын.');
                 document.getElementById('home-note').innerText = maybeRepeat('✨ В словарь добавлены новые выражения, местоимения и числительные.');
                 document.getElementById('quote-text').innerText = maybeRepeat('«почему я жаемна»');
                 document.getElementById('quote-author').innerText = maybeRepeat('— Автор Сибилевца');
