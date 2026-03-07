@@ -404,7 +404,40 @@
             font-style: italic;
         }
 
-        /* Переводчик — увеличенный размер */
+        /* Правила */
+        .rules-container {
+            background: var(--card);
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .rule-item {
+            margin-bottom: 30px;
+        }
+        .rule-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        .rule-description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        .rule-example {
+            background: var(--bg);
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 10px;
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+        }
+
+        /* Переводчик */
         .translator-container {
             background: var(--card);
             border-radius: 40px;
@@ -656,6 +689,7 @@
         <nav class="nav-links">
             <a onclick="showSection('alphabet')">Буквы</a>
             <a onclick="showSection('vocab')">Слова</a>
+            <a onclick="showSection('rules')">Правила</a>
             <a onclick="showSection('quotes')">Цитаты</a>
             <a onclick="showSection('translator')">Переводчик</a>
         </nav>
@@ -682,9 +716,9 @@
     <section id="home" class="content-section active">
         <h1 id="home-title" style="font-weight: 800; font-size: clamp(2rem, 8vw, 3.5rem);">Добро пожаловать! 👋</h1>
         <p id="home-desc" style="font-size: 1.3rem; opacity: 0.8; line-height: 1.6; max-width: 700px;">
-            Здесь вы найдёте алфавит, словарь, переводчик и мудрые цитаты языка Вакеатэ Мовын.
+            Здесь вы найдёте алфавит, словарь, правила, переводчик и мудрые цитаты языка Вакеатэ Мовын.
         </p>
-        <p id="home-note" style="margin-top: 30px; font-size: 1.1rem;">✨ В словарь добавлены новые выражения и цифры.</p>
+        <p id="home-note" style="margin-top: 30px; font-size: 1.1rem;">✨ В словарь добавлены новые выражения, местоимения и числительные.</p>
     </section>
 
     <section id="alphabet" class="content-section">
@@ -705,6 +739,23 @@
         <input type="text" class="search-bar" id="searchInput" placeholder="🔍 Поиск по слову или переводу...">
         <div class="filter-bar" id="filterBar"></div>
         <div id="vocab-container"></div>
+    </section>
+
+    <section id="rules" class="content-section">
+        <h2>✧ Правила языка</h2>
+        <div class="rules-container">
+            <div class="rule-item">
+                <div class="rule-title">Суффикс -хэ</div>
+                <div class="rule-description">
+                    Суффикс <strong>-хэ</strong> превращает глагол в существительное. При добавлении суффикса, если основа глагола начинается с гласной, эта гласная убирается, а суффикс ставится вместо окончания.
+                </div>
+                <div class="rule-example">
+                    <strong>Пример:</strong> глагол <em>акать</em> (не из словаря) → <em>кхэ</em> (существительное). 
+                    В словаре: если есть глагол, можно образовать существительное по этому правилу.
+                </div>
+            </div>
+            <!-- Можно добавить другие правила позже -->
+        </div>
     </section>
 
     <section id="quotes" class="content-section">
@@ -756,6 +807,7 @@
                 { char: "Э", pron: "э" }, { char: "Ю", pron: "ю" }, { char: "Я", pron: "я" }
             ],
             dictionary: [
+                // Ранее добавленные
                 { word: "Жаёмна", translation: "потеряться в магазине ночью", part: "глагол" },
                 { word: "Жаемна", translation: "автор Сибилевца", part: "существительное" },
                 { word: "Акоп", translation: "привет", part: "междометие" },
@@ -769,7 +821,24 @@
                 { word: "Юдаы", translation: "семь (7)", part: "числительное" },
                 { word: "Жэлда", translation: "восемь (8)", part: "числительное" },
                 { word: "Гонӟ", translation: "девять (9)", part: "числительное" },
-                { word: "Ӥнг", translation: "ноль (0)", part: "числительное" }
+                { word: "Ӥнг", translation: "ноль (0)", part: "числительное" },
+                // Новые слова
+                { word: "деградант", translation: "привет (деградант)", part: "существительное" },
+                { word: "ожирение", translation: "рожать", part: "глагол" },
+                { word: "Пӥдрэлх", translation: "Тимофей", part: "существительное" },
+                { word: "вэйтингый", translation: "очередь", part: "существительное" },
+                { word: "блебирд", translation: "твой раб", part: "существительное" },
+                { word: "Витубыршы", translation: "вонючие туссы", part: "прилагательное" },
+                // Местоимения
+                { word: "Ты", translation: "я", part: "местоимение" },
+                { word: "Я", translation: "ты", part: "местоимение" },
+                { word: "Ыв", translation: "вы", part: "местоимение" },
+                { word: "Эвы", translation: "вы (о группе людей)", part: "местоимение" },
+                { word: "Ына", translation: "она", part: "местоимение" },
+                { word: "Ин", translation: "он", part: "местоимение" },
+                { word: "Ӥны", translation: "они", part: "местоимение" },
+                { word: "Ӥно", translation: "оно", part: "местоимение" },
+                { word: "Нэт", translation: "десять (10)", part: "числительное" }
             ]
         };
 
@@ -778,7 +847,7 @@
         let alzheimerMode = false;
         let alphabetView = 'grid';
         let vocabView = 'grid';
-        let currentDirection = 'toRus'; // по умолчанию с языка на русский
+        let currentDirection = 'toRus';
 
         try {
             const savedAlz = localStorage.getItem('vakeate-alzheimer');
@@ -803,8 +872,8 @@
             saveAlzheimer();
 
             document.getElementById('home-title').innerText = maybeRepeat('Добро пожаловать! 👋');
-            document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь, переводчик и мудрые цитаты языка Вакеатэ Мовын.');
-            document.getElementById('home-note').innerText = maybeRepeat('✨ В словарь добавлены новые выражения и цифры.');
+            document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь, правила, переводчик и мудрые цитаты языка Вакеатэ Мовын.');
+            document.getElementById('home-note').innerText = maybeRepeat('✨ В словарь добавлены новые выражения, местоимения и числительные.');
             document.getElementById('quote-text').innerText = maybeRepeat('«почему я жаемна»');
             document.getElementById('quote-author').innerText = maybeRepeat('— Автор Сибилевца');
 
@@ -1102,25 +1171,20 @@
             const toRusBtn = document.getElementById('toRusBtn');
             const toLangBtn = document.getElementById('toLangBtn');
 
-            // Автоматический перевод при вводе
             srcText.addEventListener('input', updateTranslation);
 
-            // Смена направления
             toRusBtn.addEventListener('click', () => setDirection('toRus'));
             toLangBtn.addEventListener('click', () => setDirection('toLang'));
 
-            // Обмен языков: меняем тексты и инвертируем направление
             swapBtn.addEventListener('click', () => {
                 const src = srcText.value;
                 const tgt = tgtText.value;
                 srcText.value = tgt;
                 tgtText.value = src;
-                // меняем направление на противоположное
                 const newDir = currentDirection === 'toRus' ? 'toLang' : 'toRus';
                 setDirection(newDir);
             });
 
-            // Начальное состояние
             setDirection('toRus');
         }
 
@@ -1171,8 +1235,8 @@
 
             if (alzheimerMode) {
                 document.getElementById('home-title').innerText = maybeRepeat('Добро пожаловать! 👋');
-                document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь, переводчик и мудрые цитаты языка Вакеатэ Мовын.');
-                document.getElementById('home-note').innerText = maybeRepeat('✨ В словарь добавлены новые выражения и цифры.');
+                document.getElementById('home-desc').innerText = maybeRepeat('Здесь вы найдёте алфавит, словарь, правила, переводчик и мудрые цитаты языка Вакеатэ Мовын.');
+                document.getElementById('home-note').innerText = maybeRepeat('✨ В словарь добавлены новые выражения, местоимения и числительные.');
                 document.getElementById('quote-text').innerText = maybeRepeat('«почему я жаемна»');
                 document.getElementById('quote-author').innerText = maybeRepeat('— Автор Сибилевца');
             }
